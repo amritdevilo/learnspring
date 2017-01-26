@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<html ng-app="learnspring">
 <head>
 	<title>Learn spring</title>
 	<meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no" >
