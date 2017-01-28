@@ -47,7 +47,7 @@ function registerController($scope, $rootScope, $mdToast) {
 			$mdToast.show(
 		      $mdToast.simple()
 		        .textContent(msg)
-		        .position('bottom right')
+		        .position('top right')
 		        .hideDelay(1000)
 		    );
 		}

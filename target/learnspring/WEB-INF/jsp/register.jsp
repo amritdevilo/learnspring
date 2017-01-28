@@ -14,7 +14,8 @@
 			<h2>Learn Spring</h2>
 		</div>
 	</md-toolbar>
-	${message}
+	
+	
 	<div layout="row" ng-controller="registerController as rc">
 		<div flex="10"></div>
 		<!-- modelAttribute is model.get("attr") that contains the object to be filled in the form -->
