@@ -18,35 +18,22 @@
 	<!-- global toast message -->
 	{{msg = '${message}';""}}
 <!-- 	{{message = "settle";"" }} -->
-	<div layout="row" ng-controller="registerController as rc">
+	<div layout="row" ng-controller="loginController as lc">
 		<div flex="10"></div>
 		<!-- modelAttribute is model.get("attr") that contains the object to be filled in the form -->
-		<form:form id="registerForm" action="register" method="POST" modelAttribute="user" flex="{{rc.getFormFlexValue()}}">
+		<form:form id="loginForm" action="login" method="POST" modelAttribute="loginUser" flex="{{lc.getFormFlexValue()}}">
 			<div class="md-padding" id="inputDiv" layout="column" >
-				<h2>Register</h2>
+				<h2>Login</h2>
 				<md-input-container>
 					<label>Email</label>
-					<form:input path="email" ng-model="user.email" />
-				</md-input-container>
-				<md-input-container>
-					<label>First Name</label>
-					<form:input path="firstName" ng-model="user.firstName" />
-				</md-input-container>
-				<md-input-container>
-					<label>Last Name</label>
-					<form:input path="lastName" ng-model="user.lastName" />
+					<form:input path="email" ng-model="loginUser.email" />
 				</md-input-container>
 				<md-input-container>
 					<label>Password</label>
-					<form:input type="password" path="password" ng-model="user.password" />
+					<form:input type="password" path="password" ng-model="loginUser.password" />
 				</md-input-container>
-				<md-input-container>
-					<label>Confirm Password</label>
-					<input type="password" name="confPassword" ng-model="user.confPassword" />
-				</md-input-container>
-			
 				<div layout="row" layout-align="center center">
-					<md-button ng-click="rc.doSubmit()" flex class="md-raised md-primary">Submit</md-button>
+					<md-button ng-click="lc.doSubmit()" flex class="md-raised md-primary">Submit</md-button>
 				</div>
 			</form:form>
 		</div>
@@ -64,7 +51,7 @@
 	<script src="<c:url value="/static/js/ui-bootstrap-tpls.min.js" />"></script>
 	
 	<script src="<c:url value="/app/app.js" />"></script>
-	<script src="<c:url value="/app/register/registerController.js" />"></script>
+	<script src="<c:url value="/app/login/loginController.js" />"></script>
 	
 	<style type="text/css">
 		.scrollLock{

@@ -6,6 +6,7 @@ import javax.persistence.Query;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prateek.learnspring.model.User;
@@ -23,12 +24,14 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
-	public void addUser(User user) {
+	public boolean addUser(User user) {
 		try {
 			Session session = this.sessionFactory.getCurrentSession();
 			session.save(user);
-		} catch (Exception e) {
+			return true;
+		} catch (ConstraintViolationException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -54,4 +57,34 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 	
+	@Transactional
+	public boolean isEmailExists(String email) {
+		try{
+			Session session = this.sessionFactory.getCurrentSession();
+			Query query = session.createQuery("from User where email=:email");
+			query.setParameter("email", email);
+			List res = query.getResultList();
+			if (res != null && res.size() == 1) {
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
+	
+	@Transactional
+	public User getUserByEmail(String email) {
+		try{
+			Session session = this.sessionFactory.getCurrentSession();
+			Query query = session.createQuery("from User where email=:email");
+			query.setParameter("email", email);
+			User user = (User)query.getSingleResult();
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

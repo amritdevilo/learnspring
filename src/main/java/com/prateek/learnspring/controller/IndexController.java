@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.prateek.learnspring.dao.UserDao;
+import com.prateek.learnspring.model.LoginUser;
 import com.prateek.learnspring.model.User;
 
 @Controller
@@ -30,8 +31,38 @@ public class IndexController {
 		 * @ModelAttribute find the form with modelAttribute as "user" and get that.
 		 */
 		System.out.println(user.toString());
-		userDao.addUser(user);
-		redirectAttributes.addFlashAttribute("message", user.getFirstName() + " Successfuly registered !");
+		
+		//Validations
+		String message = user.getFirstName() + " Successfuly registered !";
+		if (userDao.isEmailExists(user.getEmail())) {
+			message = "Email Already exists !";
+		} else {
+			boolean isOk = userDao.addUser(user);
+		}
+		redirectAttributes.addFlashAttribute("message", message);
+		return "redirect:/test";
+	}
+	
+	/*
+	 * Creating a single repository for toasts, will it interfere with other requests
+	 */
+	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String login(Model model) {
+		model.addAttribute(new LoginUser());
+		return "login";
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public String doLogin(@ModelAttribute("loginUser") LoginUser loginUser, RedirectAttributes redirectAttributes) {
+		User user = userDao.getUserByEmail(loginUser.getEmail());
+		String message = "Username or password incorrect !";
+		boolean isAuth = false;
+		if (user.getPassword().equals(loginUser.getPassword())) {
+			isAuth = true;
+			message = "Login Successful !";
+		}
+		redirectAttributes.addFlashAttribute("message", message);
 		return "redirect:/test";
 	}
 }
