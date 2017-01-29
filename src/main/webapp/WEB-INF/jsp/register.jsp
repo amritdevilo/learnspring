@@ -18,7 +18,7 @@
 	<div layout="row" ng-controller="registerController as rc">
 		<div flex="10"></div>
 		<!-- modelAttribute is model.get("attr") that contains the object to be filled in the form -->
-		<form:form id="registerForm" action="register" method="POST" flex="40" modelAttribute="user">
+		<form:form id="registerForm" action="register" method="POST" modelAttribute="user" flex="{{rc.getFormFlexValue()}}">
 			<div class="md-padding" id="inputDiv" layout="column" >
 				<h2>Register</h2>
 			
@@ -48,7 +48,7 @@
 				</div>
 			</form:form>
 		</div>
-		<div flex="20"></div>
+		<div flex></div>
 	</div>
 </body>
 

@@ -1,8 +1,8 @@
 angular.module("learnspring").controller("registerController", registerController);
 
-registerController.$inject = ["$scope", "$rootScope", "$mdToast"];
+registerController.$inject = ["$scope", "$rootScope", "$mdToast", "$mdMedia"];
 
-function registerController($scope, $rootScope, $mdToast) {
+function registerController($scope, $rootScope, $mdToast, $mdMedia) {
 	var vm = this;
 	console.log("In registerController");
 	$scope.user = {};
@@ -66,5 +66,15 @@ function registerController($scope, $rootScope, $mdToast) {
 	function validateName(userName) {
 		var reg = new RegExp(vm.userNameRegEx);
 		return reg.test(userName);
+	}
+	
+	vm.formFlexValue = 30;
+	
+	vm.getFormFlexValue = function() {
+		if ($mdMedia('xs')) {
+			vm.formFlexValue = 70;
+		}
+		else vm.formFlexValue = 30;
+		return vm.formFlexValue;
 	}
 }
