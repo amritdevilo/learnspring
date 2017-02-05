@@ -1,0 +1,28 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<div ng-controller="headerController as hdrc">
+	<md-toolbar class="md-hue-2 md-whiteframe-z3">
+		<div layout="row">
+			<div class="md-toolbar-tools">
+				<h2>Learn Spring</h2>
+			</div>
+			<md-menu md-position-mode="target-right target" ng-if="isLoggedIn">
+				<md-button aria-label="user-settings" ng-click="$mdOpenMenu()" class="md-icon-button">
+					<md-icon md-svg-icon="<c:url value="/static/images/ic_settings_white_24px.svg" />"></md-icon>
+				</md-button>
+				<md-menu-content width="3">
+					<md-menu-item ng-repeat="item in hdrc.dropDownListKeys">
+						<md-button ng-click="hdrc.dropDownListAction(item)">
+							<div layout="row" flex>
+								<p>{{item}}</p>
+							</div>
+						</md-button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+		</div>
+	</md-toolbar>
+	<form id="logoutForm" action='<c:url value="/logout" />' method="post" ng-if="isLoggedIn">
+		<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+	</form>
+</div>

@@ -10,34 +10,54 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
-
+	
+	<context:property-placeholder location="classpath:app.properties"/>
 	<import resource="classpath:databaseContext.xml" />
 	<import resource="classpath:logicContext.xml" />
-
+	
 	<context:component-scan base-package="com.prateek.learnspring" />
 	<mvc:annotation-driven />
 	
-	<mvc:resources mapping="/static/**" location="/static/" cache-period="0"/>
-	<mvc:resources mapping="/**" location="/" cache-period="0"/>
+	<mvc:resources mapping="/static/**" location="/static/" cache-period="3600"/>
+	<mvc:resources mapping="/**" location="/" cache-period="3600"/>
 	
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
-	<security:http pattern="/static/**" security="none" /> <!-- static resources -->
-	<security:http pattern="/login" security="none" /> <!-- login page -->
-	<security:http pattern="/test" security="none" /> <!-- register page -->
-	
 	<security:http auto-config="true">
-		<security:intercept-url pattern="/*.jsp" access="permitAll"/>
+		<security:intercept-url pattern="/home**" access="hasRole('ROLE_USER')" />
+<!-- 		<security:intercept-url pattern="/login" access="permitAll" /> -->
+<!-- 		<security:intercept-url pattern="/test" access="permitAll" /> -->
+
+		<security:form-login login-page="/login"
+		username-parameter="email" password-parameter="password"
+		authentication-failure-url="/login?error=true"
+		authentication-success-handler-ref="authSuccessHandler" />
 		
+		<security:logout logout-url="/logout" delete-cookies="JSESSIONID"
+			invalidate-session="false" logout-success-url="/login"/>
+		<security:csrf/>
+		
+		<security:session-management session-fixation-protection="migrateSession" 
+			invalid-session-url="/login?session=false"
+			session-authentication-error-url="/login?session=false">
+			<security:concurrency-control max-sessions="2" expired-url="/login?session=false"/>
+		</security:session-management>
 	</security:http>
 	
 	<security:authentication-manager>
-		<security:authentication-provider ref="loginAuthProvider"/>
+		<security:authentication-provider ref="loginAuthProvider">
+		</security:authentication-provider>
 	</security:authentication-manager>
 	
+	<bean id="loginAuthProvider" class="com.prateek.learnspring.providers.loginAuthProvider">
+		<property name="userDao" ref="userDao" />
+	</bean>
 	
+	<bean id="authSuccessHandler" class="com.prateek.learnspring.providers.AuthSuccessHandler">
+		<property name="userDao" ref="userDao" />
+		<property name="sessionTimeOut" value="${session.timeout}" />
+	</bean>
 </beans> 

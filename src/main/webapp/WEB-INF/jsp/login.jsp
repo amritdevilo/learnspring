@@ -21,21 +21,23 @@
 	<div layout="row" ng-controller="loginController as lc">
 		<div flex="10"></div>
 		<!-- modelAttribute is model.get("attr") that contains the object to be filled in the form -->
-		<form:form id="loginForm" action="login" method="POST" modelAttribute="loginUser" flex="{{lc.getFormFlexValue()}}">
+		<form id="loginForm" action="<c:url value="/login" />" method="POST"  flex="{{lc.getFormFlexValue()}}">
 			<div class="md-padding" id="inputDiv" layout="column" >
 				<h2>Login</h2>
 				<md-input-container>
 					<label>Email</label>
-					<form:input path="email" ng-model="loginUser.email" />
+					<input id="email" name="email" ng-model="loginUser.email" />
 				</md-input-container>
 				<md-input-container>
 					<label>Password</label>
-					<form:input type="password" path="password" ng-model="loginUser.password" />
+					<input id="password" name="password" type="password" ng-model="loginUser.password" />
 				</md-input-container>
 				<div layout="row" layout-align="center center">
 					<md-button ng-click="lc.doSubmit()" flex class="md-raised md-primary">Submit</md-button>
 				</div>
-			</form:form>
+				 <input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+			</form>
 		</div>
 		<div flex></div>
 	</div>

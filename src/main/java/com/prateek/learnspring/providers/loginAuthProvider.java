@@ -8,10 +8,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import com.prateek.learnspring.dao.UserDao;
 import com.prateek.learnspring.model.User;
 
+@Component
 public class loginAuthProvider implements AuthenticationProvider{
 	
 	private UserDao userDao;
@@ -33,17 +36,23 @@ public class loginAuthProvider implements AuthenticationProvider{
 				return null;
 			}
 			User user = userDao.getUserByEmail(email);
-			
-			if (user.getPassword().equals(password))) {
+			System.out.println("Username : " + user.getEmail());
+			if (user.getPassword().equals(password)) {
 				List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
-				auths.add(new SimpleGrantedAuthority())
+				auths.add(new SimpleGrantedAuthority("ROLE_USER"));
+				/*
+				 * UsernamePasswordAuthenticationToken(principal, creds, grantedAuthorityList);
+				 */
+//				new UsernamePasswordAuthenticationToken(user, user.getPassword(), auths).gev
+				return new UsernamePasswordAuthenticationToken(user, user.getPassword(), auths);
 			}
 			
 		} catch (AuthenticationException e) {
 			throw e;
 		} catch (Exception e) {
-			e.printStackTrace()getClass();
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public boolean supports(Class<?> authentication) {

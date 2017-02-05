@@ -1,10 +1,9 @@
 angular.module("learnspring").controller("registerController", registerController);
 
-registerController.$inject = ["$scope", "$rootScope", "$mdToast"];
+registerController.$inject = ["$scope", "$rootScope", "$mdToast", "$mdMedia"];
 
-function registerController($scope, $rootScope, $mdToast) {
+function registerController($scope, $rootScope, $mdToast, $mdMedia) {
 	var vm = this;
-	console.log("In registerController");
 	$scope.user = {};
 	$scope.user.email;
 	$scope.user.firstName;
@@ -14,31 +13,30 @@ function registerController($scope, $rootScope, $mdToast) {
 	
 	vm.userNameRegEx = /^[a-z][\w\.]{0,24}$/i;
 	vm.passwordRegEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-	vm.emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	vm.emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	
 	vm.doSubmit = function() {
 		//form validations
 		var isValid = true;
-		var msg = "";
 		if (isValid && !validateName($scope.user.firstName)) {
 			isValid = false;
-			msg = "Invalid first name";
+			$rootScope.msg = "Invalid first name";
 		}
 		if (isValid && !validateName($scope.user.lastName)) {
 			isValid = false;
-			msg = "Invalid last name";
+			$rootScope.msg = "Invalid last name";
 		}
 		if (isValid && !validateEmail($scope.user.email)) {
 			isValid = false;
-			msg = "Invalid email address";
+			$rootScope.msg = "Invalid email address";
 		}
 		if (isValid && !validatePassword($scope.user.password)) {
 			isValid = false;
-			msg = "Invalid password";
+			$rootScope.msg = "Invalid password";
 		}
 		if (isValid && $scope.user.password != $scope.user.confPassword) {
 			isValid = false;
-			msg = "passwords do not match";
+			$rootScope.msg = "passwords do not match";
 		}
 		
 		if (isValid) {
@@ -46,7 +44,7 @@ function registerController($scope, $rootScope, $mdToast) {
 		} else {
 			$mdToast.show(
 		      $mdToast.simple()
-		        .textContent(msg)
+		        .textContent($rootScope.msg)
 		        .position('top right')
 		        .hideDelay(1000)
 		    );
@@ -67,4 +65,28 @@ function registerController($scope, $rootScope, $mdToast) {
 		var reg = new RegExp(vm.userNameRegEx);
 		return reg.test(userName);
 	}
+	
+	vm.formFlexValue = 30;
+	
+	vm.getFormFlexValue = function() {
+		if ($mdMedia('xs')) {
+			vm.formFlexValue = 70;
+		}
+		else vm.formFlexValue = 30;
+		return vm.formFlexValue;
+	}
+	console.log("In registerController ");
+	
+	vm.showFlashMsg = function() {
+		$mdToast.show(
+	      $mdToast.simple()
+	        .textContent($rootScope.msg)
+	        .position('top right')
+	        .hideDelay(1000)
+	    );
+	};
+	angular.element(document).ready(function(){
+		if ($rootScope.msg != "")
+			vm.showFlashMsg();
+	});
 }

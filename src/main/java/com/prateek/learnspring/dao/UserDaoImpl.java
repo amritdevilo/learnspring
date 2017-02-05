@@ -80,8 +80,9 @@ public class UserDaoImpl implements UserDao {
 			Session session = this.sessionFactory.getCurrentSession();
 			Query query = session.createQuery("from User where email=:email");
 			query.setParameter("email", email);
-			User user = (User)query.getSingleResult();
-			return user;
+			List<User> user = (List<User>)query.getResultList();
+			if (user.size() == 0) return null;
+			return user.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

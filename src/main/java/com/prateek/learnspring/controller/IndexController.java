@@ -1,6 +1,9 @@
 package com.prateek.learnspring.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,16 +56,11 @@ public class IndexController {
 		return "login";
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String doLogin(@ModelAttribute("loginUser") LoginUser loginUser, RedirectAttributes redirectAttributes) {
-		User user = userDao.getUserByEmail(loginUser.getEmail());
-		String message = "Username or password incorrect !";
-		boolean isAuth = false;
-		if (user.getPassword().equals(loginUser.getPassword())) {
-			isAuth = true;
-			message = "Login Successful !";
-		}
-		redirectAttributes.addFlashAttribute("message", message);
-		return "redirect:/test";
+	@RequestMapping(value="/home", method=RequestMethod.GET)
+	public String home(HttpServletRequest request, Model model) {
+		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		User user = (User)userToken.getPrincipal();
+		model.addAttribute("name", user.getFirstName() + " " + user.getLastName());
+		return "home";
 	}
 }
