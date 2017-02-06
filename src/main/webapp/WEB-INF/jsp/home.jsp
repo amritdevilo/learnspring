@@ -1,21 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!-- <html> -->
-<!-- 	<title> -->
-<!-- 		Home page -->
-<!-- 	</title> -->
-	
-<!-- 	<body> -->
-<!-- 		Enter the dragon -->
-<%-- 		<br>${name } --%>
-		
-<%-- 		<form action="<c:url value="/logout" />" method="post"> --%>
-<%-- 			<input type="hidden" name="${_csrf.parameterName}" --%>
-<%-- 					value="${_csrf.token}" /> --%>
-<!-- 			<input type="submit" value="logout" > -->
-<!-- 		</form> -->
-<!-- 	</body> -->
-<!-- </html> -->
 
 <html ng-app="learnspring">
 	<head>
@@ -28,6 +12,7 @@
 	<body ng-hide ng-controller="homeController as hc">
 		<header ng-include="'<c:url value="/app/header/header.jsp"/>'"></header>
 		${pageContext.request.userPrincipal}
+		${userInfo}
 	</body>
 	<script src="<c:url value="/static/js/angular.min.js" />"></script>
 	<script src="<c:url value="/static/js/angular-animate.min.js" />"></script>

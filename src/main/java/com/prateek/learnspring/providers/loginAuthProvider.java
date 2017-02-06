@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.prateek.learnspring.dao.UserDao;
 import com.prateek.learnspring.model.User;
+import com.prateek.learnspring.model.UserInfo;
 
 @Component
 public class loginAuthProvider implements AuthenticationProvider{
@@ -40,11 +41,13 @@ public class loginAuthProvider implements AuthenticationProvider{
 			if (user.getPassword().equals(password)) {
 				List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 				auths.add(new SimpleGrantedAuthority("ROLE_USER"));
+				UserInfo userInfo = new UserInfo(user.getFirstName(), user.getLastName(), user.getEmail(), auths);
 				/*
 				 * UsernamePasswordAuthenticationToken(principal, creds, grantedAuthorityList);
 				 */
 //				new UsernamePasswordAuthenticationToken(user, user.getPassword(), auths).gev
-				return new UsernamePasswordAuthenticationToken(user, user.getPassword(), auths);
+				userInfo.setFlashMessage("Welcome " + userInfo.getFirstName() + "!");
+				return new UsernamePasswordAuthenticationToken(userInfo, user.getPassword(), auths);
 			}
 			
 		} catch (AuthenticationException e) {

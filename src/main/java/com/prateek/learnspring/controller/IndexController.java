@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.prateek.learnspring.dao.UserDao;
 import com.prateek.learnspring.model.LoginUser;
 import com.prateek.learnspring.model.User;
+import com.prateek.learnspring.model.UserInfo;
 
 @Controller
 public class IndexController {
@@ -59,8 +60,9 @@ public class IndexController {
 	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model) {
 		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
-		User user = (User)userToken.getPrincipal();
-		model.addAttribute("name", user.getFirstName() + " " + user.getLastName());
+		UserInfo userInfo = (UserInfo)userToken.getPrincipal();
+		model.addAttribute("name", userInfo.getFirstName() + " " + userInfo.getLastName());
+		model.addAttribute("userInfo", userInfo);
 		return "home";
 	}
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.prateek.learnspring.dao.UserDao;
 import com.prateek.learnspring.model.User;
+import com.prateek.learnspring.model.UserInfo;
 
 @Component
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
@@ -40,10 +41,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 			throws IOException, ServletException {
 		try{
 			if (!(auth instanceof AnonymousAuthenticationToken)) {
-				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				if (user != null) {
-					System.out.println("In authSuccessHandler with " + user.getEmail());
-					request.setAttribute("userInfo", user);
 					request.getSession().setMaxInactiveInterval(sessionTimeOut);
 					redirectStrategy.sendRedirect(request, response, "/home");
 				}
