@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prateek.learnspring.model.User;
@@ -27,6 +28,7 @@ public class UserDaoImpl implements UserDao {
 	public boolean addUser(User user) {
 		try {
 			Session session = this.sessionFactory.getCurrentSession();
+			user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 			session.save(user);
 			return true;
 		} catch (ConstraintViolationException e) {

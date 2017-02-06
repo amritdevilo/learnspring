@@ -60,4 +60,5 @@
 		<property name="userDao" ref="userDao" />
 		<property name="sessionTimeOut" value="${session.timeout}" />
 	</bean>
+	
 </beans> 
