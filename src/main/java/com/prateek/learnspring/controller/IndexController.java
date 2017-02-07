@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -64,5 +65,13 @@ public class IndexController {
 		model.addAttribute("name", userInfo.getFirstName() + " " + userInfo.getLastName());
 		model.addAttribute("userInfo", userInfo);
 		return "home";
+	}
+	
+	@RequestMapping(value="/client", method=RequestMethod.GET)
+	@ResponseBody
+	public UserInfo getCurrentUserInfo(HttpServletRequest request) {
+		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		UserInfo userInfo = (UserInfo)userToken.getPrincipal();
+		return userInfo;
 	}
 }

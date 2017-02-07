@@ -11,8 +11,9 @@
 	
 	<body ng-hide ng-controller="homeController as hc">
 		<header ng-include="'<c:url value="/app/header/header.jsp"/>'"></header>
-		${pageContext.request.userPrincipal}
-		${userInfo}
+		<div class="md-padding">
+			Hello ${userInfo.firstName}
+		</div>
 	</body>
 	<script src="<c:url value="/static/js/angular.min.js" />"></script>
 	<script src="<c:url value="/static/js/angular-animate.min.js" />"></script>
@@ -23,7 +24,8 @@
 	<script src="<c:url value="/static/js/ui-bootstrap.min.js" />"></script>
 	<script src="<c:url value="/static/js/ui-bootstrap-tpls.min.js" />"></script>
 	
-	<script src="<c:url value="/app/app.js" />"></script>
+<%-- 	<script src="<c:url value="/app/app.js" />"></script> --%>
+	<script src="app/app.js"></script>
 	<script src="<c:url value="/app/home/homeController.js" />"></script>
 	<script src="<c:url value="/app/header/headerController.js" />"></script>
 </html>
