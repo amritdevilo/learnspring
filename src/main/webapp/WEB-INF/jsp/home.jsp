@@ -12,7 +12,7 @@
 	<body ng-hide ng-controller="homeController as hc">
 		<header ng-include="'<c:url value="/app/header/header.jsp"/>'"></header>
 		<div class="md-padding">
-			Hello ${userInfo.firstName}
+			${flashMessage}
 		</div>
 	</body>
 	<script src="<c:url value="/static/js/angular.min.js" />"></script>
