@@ -26,7 +26,7 @@
 				<h2>Login</h2>
 				<md-input-container>
 					<label>Email</label>
-					<input id="email" name="email" ng-model="loginUser.email" />
+					<input id="email" name="email" ng-model="loginUser.email" autofocus="autofocus"/>
 				</md-input-container>
 				<md-input-container>
 					<label>Password</label>
