@@ -10,6 +10,14 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<bean id="songsDao" class="com.prateek.learnspring.dao.SongsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="messageDao" class="com.prateek.learnspring.dao.MessageDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
 <!-- 	<bean id="indexController" class="com.prateek.learnspring.controller.IndexController"> -->
 <!-- 		<property name="userDao" ref="userDao" /> -->
 <!-- 	</bean> -->

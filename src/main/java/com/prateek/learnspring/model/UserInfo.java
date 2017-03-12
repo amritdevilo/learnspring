@@ -7,6 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import com.prateek.learnspring.util.FlashMessage;
 
 public class UserInfo {
+	
+	private String id;
+	
 	private String firstName;
 	
 	private String lastName;
@@ -17,14 +20,23 @@ public class UserInfo {
 	
 	private FlashMessage flashMessage;
 	
-	public UserInfo(String firstName, String lastName, String email, List<GrantedAuthority> auths) {
+	public UserInfo(String id, String firstName, String lastName, String email, List<GrantedAuthority> auths) {
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.auths = auths;
-		flashMessage = new FlashMessage();
+		this.flashMessage = new FlashMessage();
 	}
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public void setFlashMessage(String message) {
 		flashMessage.setMessage(message);
 	}

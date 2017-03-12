@@ -19,7 +19,7 @@
 	<mvc:annotation-driven />
 	
 	<mvc:resources mapping="/static/**" location="/static/" cache-period="3600"/>
-	<mvc:resources mapping="/**" location="/" cache-period="3600"/>
+	<mvc:resources mapping="/**" location="/"/>
 	
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
@@ -28,6 +28,7 @@
 	</bean>
 	<security:http auto-config="true">
 		<security:intercept-url pattern="/home**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/api/**" access="hasRole('ROLE_USER')" />
 <!-- 		<security:intercept-url pattern="/login" access="permitAll" /> -->
 <!-- 		<security:intercept-url pattern="/test" access="permitAll" /> -->
 
@@ -38,13 +39,15 @@
 		
 		<security:logout logout-url="/logout" delete-cookies="JSESSIONID"
 			invalidate-session="false" logout-success-url="/login"/>
-		<security:csrf/>
+			
+		<security:csrf token-repository-ref="csrfTokenRepository"/>
 		
 		<security:session-management session-fixation-protection="migrateSession" 
 			invalid-session-url="/login?session=false"
 			session-authentication-error-url="/login?session=false">
 			<security:concurrency-control max-sessions="2" expired-url="/login?session=false"/>
 		</security:session-management>
+		
 	</security:http>
 	
 	<security:authentication-manager>
@@ -59,6 +62,10 @@
 	<bean id="authSuccessHandler" class="com.prateek.learnspring.providers.AuthSuccessHandler">
 		<property name="userDao" ref="userDao" />
 		<property name="sessionTimeOut" value="${session.timeout}" />
+	</bean>
+	
+	<bean id="csrfTokenRepository" class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
+		<property name="headerName" value="X-XSRF-TOKEN"/>
 	</bean>
 	
 </beans> 

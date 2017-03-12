@@ -33,7 +33,7 @@
 					<input id="password" name="password" type="password" ng-model="loginUser.password" />
 				</md-input-container>
 				<div layout="row" layout-align="center center">
-					<md-button ng-click="lc.doSubmit()" flex class="md-raised md-primary">Submit</md-button>
+					<md-button ng-submit="lc.doSubmit()" type="submit" flex class="md-raised md-primary">Submit</md-button>
 				</div>
 				 <input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />

@@ -42,7 +42,7 @@ public class loginAuthProvider implements AuthenticationProvider{
 			if (BCrypt.checkpw(password, user.getPassword())) {
 				List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 				auths.add(new SimpleGrantedAuthority("ROLE_USER"));
-				UserInfo userInfo = new UserInfo(user.getFirstName(), user.getLastName(), user.getEmail(), auths);
+				UserInfo userInfo = new UserInfo(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), auths);
 				/*
 				 * UsernamePasswordAuthenticationToken(principal, creds, grantedAuthorityList);
 				 */
