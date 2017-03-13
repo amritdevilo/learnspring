@@ -20,10 +20,9 @@
 	    			<md-list>
 	    				<md-list-item class="md-1-line" >
 	    					<div flex>
-								<h2 layout-padding>Your Songs</h2>
+								<h3 layout-padding>Your Songs</h3>
 							</div>
 							<md-button ng-click="hc.addSong()">Add</md-button>
-	    					<md-divider ></md-divider>
 	    				</md-list-item>
 	    				<md-list-item class="md-2-line" ng-repeat="song in songList">
 	    					<div flex="5"></div>

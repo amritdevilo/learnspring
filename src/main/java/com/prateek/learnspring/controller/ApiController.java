@@ -30,6 +30,7 @@ import com.prateek.learnspring.model.SongAndRating;
 import com.prateek.learnspring.model.UserAutocompleteResponse;
 import com.prateek.learnspring.model.UserInfo;
 import com.prateek.learnspring.model.UserMessage;
+import com.prateek.learnspring.model.UserMessageResponse;
 import com.prateek.learnspring.model.UserSearch;
 
 @Controller
@@ -153,33 +154,29 @@ public class ApiController {
 	
 	@RequestMapping(value="/api/message/getAll", method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<ArrayList<UserMessage>> getAllMessages(HttpServletRequest request) {
+	public ResponseEntity<UserMessageResponse> getAllMessages(HttpServletRequest request) {
 		return getAllMessages(request, 0, 10);
 	}
 	
 	@RequestMapping(value="/api/message/getAll/{from}/{to}", method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<ArrayList<UserMessage>> getAllMessages(HttpServletRequest request, @PathVariable int from, @PathVariable int to) {
+	public ResponseEntity<UserMessageResponse> getAllMessages(HttpServletRequest request, @PathVariable int from, @PathVariable int to) {
 		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
 		if (userToken == null) {
 			System.out.println("Null user");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
-					.body(new ArrayList<UserMessage>());
+					.body(new UserMessageResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()));
 		}
 		
 		String userId = ((UserInfo)(userToken.getPrincipal())).getId();
 		try {
 			ArrayList<UserMessage> res = (ArrayList<UserMessage>) messageDao.getAllMessages(userId, Math.max(0, from), to);
-			System.out.println(res.size());
-			for (UserMessage u : res) {
-				System.out.println(u.getFirstName());
-			}
 			return ResponseEntity.status(HttpStatus.OK.value())
-					.body(res);
+					.body(new UserMessageResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), res));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-					.body(new ArrayList<UserMessage>());
+					.body(new UserMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}
 	}
 	

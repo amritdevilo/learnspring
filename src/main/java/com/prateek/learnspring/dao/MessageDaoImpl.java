@@ -96,19 +96,21 @@ public class MessageDaoImpl implements MessageDao {
 		try {
 			String sql = "select m.id as messageId, m.fromId, u.firstName, u.lastName, u.email, s.id as songId, s.name, s.link "
 					+ "from message m "
-					+ "left join UserDetails u on m.fromId=u.id "
 					+ "left join song s on m.songId=s.id "
+					+ "left join UserDetails u on m.fromId=u.id "
 					+ "where m.toId=:toId "
 					+ "order by m.ts desc limit :limit";
 			Query query = sessionFactory.getCurrentSession()
 					.createNativeQuery(sql, "MessageAndRatingDtoMapping");
 			query.setParameter("toId", toId);
-			if (to != -1) {
+			if (to == -1) {
 				to = Integer.MAX_VALUE;
 			}
 			query.setParameter("limit", to);
 			List<UserMessage> res = query.getResultList();
-			return new ArrayList<UserMessage>(res.subList(from, Math.min(to, res.size())));
+			int _from = Math.max(0, from - 1);
+			int _to = Math.min(res.size(), to); // exclusive
+			return new ArrayList<UserMessage>(res.subList(_from, _to));
 		} catch (IllegalStateException e) {
 			throw new DalException(e.getMessage());
 		} catch (QueryTimeoutException e) {

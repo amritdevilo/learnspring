@@ -1,10 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div ng-controller="headerController as hdrc">
 	<md-toolbar class="md-hue-2 md-whiteframe-z3">
-		<div layout="row">
-			<div class="md-toolbar-tools">
-				<h2>Learn Spring</h2>
-			</div>
+		<div class="md-toolbar-tools">
+				<h2 flex>Learn Spring</h2>
+			<md-button class="md-icon-button" aria-label="messages" ng-if="isLoggedIn" >
+				<md-icon md-svg-icon="<c:url value="/static/images/ic_email_white_24px.svg"/>"></md-icon>
+			</md-button>
+			<md-button class="md-icon-button" aria-label="songs" ng-if="isLoggedIn" >
+				<md-icon md-svg-icon="<c:url value="/static/images/ic_queue_music_white_24px.svg"/>"></md-icon>
+			</md-button>
 			<md-menu md-position-mode="target-right target" ng-if="isLoggedIn">
 				<md-button aria-label="user-settings" ng-click="$mdOpenMenu()" class="md-icon-button">
 					<md-icon md-svg-icon="<c:url value="/static/images/ic_settings_white_24px.svg" />"></md-icon>
