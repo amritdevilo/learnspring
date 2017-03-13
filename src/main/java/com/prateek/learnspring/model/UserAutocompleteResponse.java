@@ -4,23 +4,23 @@ import java.util.List;
 
 public class UserAutocompleteResponse extends ServiceResponse{
 	
-	private List<UserSearch> user;
+	private List<UserSearch> userlist;
 
-	public UserAutocompleteResponse(int status, String message, List<UserSearch> user) {
+	public UserAutocompleteResponse(int status, String message, List<UserSearch> userlist) {
 		super(status, message);
-		this.user = user;
+		this.userlist = userlist;
 	}
 	
 	public UserAutocompleteResponse(int status, String message) {
 		super(status, message);
 	}
 
-	public List<UserSearch> getUser() {
-		return user;
+	public List<UserSearch> getUserlist() {
+		return userlist;
 	}
 
-	public void setUser(List<UserSearch> user) {
-		this.user = user;
+	public void setUserlist(List<UserSearch> userlist) {
+		this.userlist = userlist;
 	}
 
 }

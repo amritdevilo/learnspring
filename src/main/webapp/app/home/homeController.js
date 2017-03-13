@@ -82,10 +82,29 @@ function homeController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDialog
 			disableParentScroll : true,
 			hasBackdrop : true,
 			locals : {
-				song : angular.copy($scope.song)
+				song : song
 			}
 		}).then(function(result){
-			
+			if (result == null || result == undefined) return ;
+			console.log(result);
+			$http.post("/learnspring/api/message/add", result)
+				.then(function(result){
+					console.log(result);
+					var msg = "Message " + (result.status == 200 ? "" : "not") + " sent : " + result.status;
+					$mdToast.show(
+				      $mdToast.simple(msg)
+				        .position('top right')
+				        .hideDelay(1000)
+				    );
+				}, function(result){
+					console.log(result);
+					var msg = "Message " + (result.status == 200 ? "" : "not") + " sent : " + result.status;
+					$mdToast.show(
+				      $mdToast.simple(msg)
+				        .position('top right')
+				        .hideDelay(1000)
+				    );
+				});
 		});
 	};
 	

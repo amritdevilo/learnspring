@@ -20,10 +20,14 @@ public class UserMessage {
 	
 	private String link;
 	
-	private Timestamp ts;
+//	private Timestamp ts;
 
+	public UserMessage() {
+		super();
+	}
+	
 	public UserMessage(String messageId, String fromId, String firstName, String lastName, String email, String songId,
-			String name, String link, Timestamp ts) {
+			String name, String link/*, Timestamp ts*/) {
 		super();
 		this.messageId = messageId;
 		this.fromId = fromId;
@@ -33,7 +37,7 @@ public class UserMessage {
 		this.songId = songId;
 		this.name = name;
 		this.link = link;
-		this.ts = ts;
+//		this.ts = ts;
 	}
 
 	public String getMessageId() {
@@ -100,12 +104,12 @@ public class UserMessage {
 		this.link = link;
 	}
 
-	public Timestamp getTs() {
-		return ts;
-	}
-
-	public void setTs(Timestamp ts) {
-		this.ts = ts;
-	}
+//	public Timestamp getTs() {
+//		return ts;
+//	}
+//
+//	public void setTs(Timestamp ts) {
+//		this.ts = ts;
+//	}
 	
 }

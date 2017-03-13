@@ -37,7 +37,7 @@ import javax.persistence.ConstructorResult;
 							@ColumnResult(name="songId", type=String.class),
 							@ColumnResult(name="name", type=String.class),
 							@ColumnResult(name="link", type=String.class),
-							@ColumnResult(name="ts", type=Timestamp.class),
+//							@ColumnResult(name="ts", type=Timestamp.class),
 					})
 	})
 })

@@ -170,9 +170,14 @@ public class ApiController {
 		String userId = ((UserInfo)(userToken.getPrincipal())).getId();
 		try {
 			ArrayList<UserMessage> res = (ArrayList<UserMessage>) messageDao.getAllMessages(userId, Math.max(0, from), to);
+			System.out.println(res.size());
+			for (UserMessage u : res) {
+				System.out.println(u.getFirstName());
+			}
 			return ResponseEntity.status(HttpStatus.OK.value())
 					.body(res);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
 					.body(new ArrayList<UserMessage>());
 		}

@@ -33,6 +33,16 @@ public class Message {
 		this.songId = songId;
 		this.ts = ts;
 	}
+	
+	public Message(String toId, String songId) {
+		super();
+		this.toId = toId;
+		this.songId = songId;
+	}
+	
+	public Message() {
+		super();
+	}
 
 	public String getId() {
 		return id;
