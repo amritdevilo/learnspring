@@ -24,6 +24,28 @@ angular.module('learnspring', ["ui.router", "ngMaterial"])
 		 $mdThemingProvider.theme('default')
     		.primaryPalette('customBlue')
 	})
+	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+		$stateProvider
+			.state('messages', {
+				url : '/home/messages',
+				templateUrl : 'app/messages/messages.jsp',
+				controller : 'messageController as mc'
+			})
+			.state('songList', {
+				url : '/home/songlist',
+				templateUrl : 'app/songlist/songList.jsp',
+				controller : 'songListController as slc'
+			})
+			.state('demo', {
+				url : '/home/demo', 
+				template : "<h3>Demo</h3>",
+				controller : function($rootScope){
+					$scope.isLoggedIn = $rootScope.isLoggedIn;
+				}
+			});
+		$urlRouterProvider.otherwise("/home/songlist");
+		
+	}])
 	.config(['$qProvider', function ($qProvider) {
     	$qProvider.errorOnUnhandledRejections(false);
 	}]);
