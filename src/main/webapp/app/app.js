@@ -27,23 +27,23 @@ angular.module('learnspring', ["ui.router", "ngMaterial"])
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 		$stateProvider
 			.state('messages', {
-				url : '/home/messages',
+				url : '/messages',
 				templateUrl : 'app/messages/messages.jsp',
-				controller : 'messageController as mc'
+				controller : 'messagesController as mc'
 			})
 			.state('songList', {
-				url : '/home/songlist',
+				url : '/songlist',
 				templateUrl : 'app/songlist/songList.jsp',
 				controller : 'songListController as slc'
 			})
 			.state('demo', {
-				url : '/home/demo', 
+				url : '/demo', 
 				template : "<h3>Demo</h3>",
 				controller : function($rootScope){
 					$scope.isLoggedIn = $rootScope.isLoggedIn;
 				}
 			});
-		$urlRouterProvider.otherwise("/home/songlist");
+		$urlRouterProvider.otherwise("/songlist");
 		
 	}])
 	.config(['$qProvider', function ($qProvider) {

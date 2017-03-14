@@ -5,7 +5,8 @@
 		</div>
 	</md-toolbar>
 	<md-dialog-content>
-		<div class="md-dialog-content" layout-padding layout="column" style="width:400px;">
+<!-- 	style="width:400px;" -->
+		<div class="md-dialog-content" layout-padding layout="column" > 
 			<md-autocomplete
 			  md-no-cache="false"
 	          md-selected-item="smc.toId"
