@@ -4,12 +4,12 @@
 	<div ng-cloak flex="{{slc.getFormFlexValue()}}">
    		<md-content class="md-whiteframe-z2">
    			<md-list>
-   				<md-list-item class="md-1-line" >
+   				<md-subheader class="md-no-sticky" layout="row">
    					<div flex>
 						<h3 layout-padding>Your Songs</h3>
 					</div>
 					<md-button ng-click="slc.addSong()">Add</md-button>
-   				</md-list-item>
+   				</md-subheader>
    				<md-list-item class="md-2-line" ng-repeat="song in songList">
    					<div flex="5"></div>
    					<img ng-src="{{slc.thumbnail(song.link)}}" class="md-avatar" alt="{{item.who}}" />

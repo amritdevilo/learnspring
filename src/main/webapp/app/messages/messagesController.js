@@ -5,6 +5,7 @@ messagesController.$inject = ["$rootScope", "$scope", "$http", "$mdToast", "$mdM
 function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDialog) {
 	var vm = this;
 	
+	vm.defaultImageLink = "/learnspring/static/images/defaultImageLink.jpg";
 	$scope.messageIndex = 0;
 	vm.messageBatch = 10;
 	
@@ -35,7 +36,7 @@ function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 		res = link.match(re);
 		
 		if (res == null || res.length < 2) {
-			return $scope.defaultImageLink;
+			return vm.defaultImageLink;
 		} else {
 			return "https://i3.ytimg.com/vi/" + res[1] + "/mqdefault.jpg";
 		}
