@@ -63,7 +63,7 @@ function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 		res = link.match(re);
 		
 		if (res == null || res.length < 2) {
-			return $scope.defaultImageLink;
+			return vm.defaultImageLink;
 		} else {
 			return "https://i3.ytimg.com/vi/" + res[1] + "/mqdefault.jpg";
 		}
