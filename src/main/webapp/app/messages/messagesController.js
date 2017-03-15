@@ -5,19 +5,30 @@ messagesController.$inject = ["$rootScope", "$scope", "$http", "$mdToast", "$mdM
 function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDialog) {
 	var vm = this;
 	
-	$scope.messageIndex = 0;
-	vm.messageBatch = 10;
+	$scope.messageIndex = 0; // track loaded messages index
+	$scope.currentPage = 0; // track current message batch being displayed
+	vm.messageBatch = 4;
 	
 	$scope.messages = [];
+	
+	$scope.messageCurrent = []; 
 	
 	vm.nextMessageBatch = function nextMessageBatch() {
 		$http.get("/learnspring/api/message/getAll/"+$scope.messageIndex+"/"+($scope.messageIndex + vm.messageBatch))
 		.then(function(result){
 			console.log(result);
+			
+			if (result.data.userMessage.length != 0) {
+				$scope.messageCurrent = result.data.userMessage; //next batch to the current buffer
+			} else {
+				$scope.currentPage = Math.max($scope.currentPage - 1, 0);
+			}
+			
 			result.data.userMessage.forEach(function(m){
 				$scope.messages.push(m);
 			});
-			$scope.messageIndex += vm.messageBatch;
+			
+			$scope.messageIndex += Math.min(vm.messageBatch, result.data.userMessage.length);
 		}, 
 		function(result){
 			console.log(result);
@@ -28,6 +39,23 @@ function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 		        .hideDelay(1000)
 		    );
 		});
+	}
+	
+	vm.prevBatch = function prevBatch() {
+		$scope.currentPage = Math.max($scope.currentPage - 1, 0);
+		var idx = $scope.currentPage * vm.messageBatch;
+		$scope.messageCurrent = $scope.messages.slice(idx, idx + vm.messageBatch);
+	}
+	
+	vm.nextBatch = function nextBatch() {
+		$scope.currentPage += 1;
+		var idx = $scope.currentPage * vm.messageBatch;
+		if (idx >= $scope.messages.length) {
+			vm.nextMessageBatch();
+		}
+		else {
+			$scope.messageCurrent = $scope.messages.slice(idx, idx + vm.messageBatch);
+		}
 	}
 	
 	vm.thumbnail = function thumbnail(link) {

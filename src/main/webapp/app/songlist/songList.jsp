@@ -4,13 +4,13 @@
 	<div ng-cloak flex="{{slc.getFormFlexValue()}}">
    		<md-content class="md-whiteframe-z2">
    			<md-list>
-   				<md-list-item class="md-1-line" >
-   					<div flex>
-						<h3 layout-padding>Your Songs</h3>
-					</div>
-					<md-button ng-click="slc.addSong()">Add</md-button>
-   				</md-list-item>
-   				<md-list-item class="md-2-line" ng-repeat="song in songList">
+   				<md-subheader class="md-no-sticky">
+   					<div layout="row">
+   						<div flex><p style="vertical-align:middle">Your songs</p></div>
+   						<md-button ng-click="slc.addSong()">Add</md-button>
+   					</div>
+   				</md-subheader>
+   				<md-list-item class="md-2-line" ng-repeat="song in songList track by $index">
    					<div flex="5"></div>
    					<img ng-src="{{slc.thumbnail(song.link)}}" class="md-avatar" alt="{{item.who}}" />
     				<div flex class="md-list-item-text" layout="column">
@@ -21,7 +21,7 @@
     						<md-icon md-svg-icon="<c:url value="/static/images/ic_send_black_48px.svg" />" aria-label="send"></md-icon>
     					</md-button>
     				</div>
-    				<md-divider></md-divider>
+    				<md-divider ng-if="!$last"></md-divider>
    				</md-list-item>
    			</md-list>
    		</md-content>

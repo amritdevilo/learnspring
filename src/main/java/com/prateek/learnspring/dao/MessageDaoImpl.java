@@ -108,7 +108,7 @@ public class MessageDaoImpl implements MessageDao {
 			}
 			query.setParameter("limit", to);
 			List<UserMessage> res = query.getResultList();
-			int _from = Math.max(0, from - 1);
+			int _from = Math.max(0, from);
 			int _to = Math.min(res.size(), to); // exclusive
 			return new ArrayList<UserMessage>(res.subList(_from, _to));
 		} catch (IllegalStateException e) {
