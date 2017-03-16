@@ -2,9 +2,9 @@ var app = angular.module("learnspring").controller("messagesController", message
 
 messagesController.$inject = ["$rootScope", "$scope", "$http", "$mdToast", "$mdMedia", "$mdDialog"];
 
-function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDialog) {
+function messagesController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDialog) {
 	var vm = this;
-	
+	$scope.defaultImageLink = "/learnspring/static/images/defaultImageLink.jpg";
 	$scope.messageIndex = 0; // track loaded messages index
 	$scope.currentPage = 0; // track current message batch being displayed
 	vm.messageBatch = 4;
@@ -39,13 +39,13 @@ function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 		        .hideDelay(1000)
 		    );
 		});
-	}
+	};
 	
 	vm.prevBatch = function prevBatch() {
 		$scope.currentPage = Math.max($scope.currentPage - 1, 0);
 		var idx = $scope.currentPage * vm.messageBatch;
 		$scope.messageCurrent = $scope.messages.slice(idx, idx + vm.messageBatch);
-	}
+	};
 	
 	vm.nextBatch = function nextBatch() {
 		$scope.currentPage += 1;
@@ -56,14 +56,42 @@ function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 		else {
 			$scope.messageCurrent = $scope.messages.slice(idx, idx + vm.messageBatch);
 		}
-	}
+	};
+	
+	vm.importMessage = function importMessage(message) {
+		payload = {
+			"name" : message.name,
+			"link" : message.link,
+			"resource" : "", 
+		}
+		
+		$http.post("/learnspring/api/song/add", payload)
+			.then(function(result){
+				$rootScope.songList.splice(0, 0, result.data.song);
+				
+				$mdToast.show(
+			      $mdToast.simple()
+			        .textContent("Song imported to library : " + result.data.status )
+			        .position('top right')
+			        .hideDelay(1000)
+			    );
+			}, function(result) {
+				console.log(result);
+				$mdToast.show(
+			      $mdToast.simple()
+			        .textContent("Something went wrong ! : " + result.data.message )
+			        .position('top right')
+			        .hideDelay(1000)
+			    );
+			});
+	};
 	
 	vm.thumbnail = function thumbnail(link) {
 		re = /(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/;
 		res = link.match(re);
 		
 		if (res == null || res.length < 2) {
-			return vm.defaultImageLink;
+			return $scope.defaultImageLink;
 		} else {
 			return "https://i3.ytimg.com/vi/" + res[1] + "/mqdefault.jpg";
 		}
@@ -75,7 +103,7 @@ function messagesController($ootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 	
 	vm.getFormFlexValue = function() {
 		if ($mdMedia("xs")) {
-			vm.formFlexValue = 80;
+			vm.formFlexValue = 90;
 		} else {
 			vm.formFlexValue = 40;
 		}

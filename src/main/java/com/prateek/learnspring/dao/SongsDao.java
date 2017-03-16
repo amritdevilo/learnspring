@@ -14,13 +14,13 @@ public interface SongsDao {
 	
 	public void updateRating(String ratingId, float rating) throws DalException;
 	
-	public void deleteSong(String songId) throws DalException;
+	public void deleteSong(String songId, String userId) throws DalException;
 
 	public Song addSong(Song song) throws DalException;
 	
 	public void updateSong(Song song) throws DalException;
 	
-	public boolean isLinkExists(String link) throws DalException;
+	public boolean isLinkExists(String link, String userId) throws DalException;
 	
 	public List<Song> getSongList(String userId) throws DalException;
 }

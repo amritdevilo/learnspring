@@ -17,6 +17,21 @@ function homeController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDialog
 	
 	vm.initHomeController = function initHomeController() {
 		console.log("in home controller");
+		
+		//load songs
+		$http.get("/learnspring/api/song/list")
+			.then(function(result){
+				$rootScope.songList = result.data;
+				console.log("Song list fetched");
+				console.log($rootScope.songList);
+			}, function(result){
+				$mdToast.show(
+			      $mdToast.simple()
+			        .textContent("Song list could not be fetched")
+			        .position('top right')
+			        .hideDelay(1000)
+			    );
+			});
 	}
 	
 	vm.initHomeController();

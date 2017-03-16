@@ -160,7 +160,7 @@ CREATE TABLE `song` (
 
 LOCK TABLES `song` WRITE;
 /*!40000 ALTER TABLE `song` DISABLE KEYS */;
-INSERT INTO `song` VALUES ('90b941e0-8190-4fb7-84b7-37cfd8d2f5b1','Mercury - Tere Bina','https://www.reverbnation.com/mercurybadsomeotherday/song/13614812-tere-bina?fb_og_action=reverbnation_fb:unknown&fb_og_object=reverbnation_fb:song&player_client_id=j29dsi7kl&utm_campaign=a_public_songs&utm_content=reverbnation_fb:song&utm_medium=facebook_og&utm_source=reverbnation_fb:unknown','','a39db9de-5490-499e-afcd-db5251d2cdeb'),('933c40ed-c121-4cb7-951c-21253b9acea0','are you sure','https://www.youtube.com/watch?v=AWTREwT-GQI','youtube','a39db9de-5490-499e-afcd-db5251d2cdeb'),('f754953f-0426-4e95-a509-794d16e4aeb7','GTA red lips','https://www.youtube.com/watch?v=qI1ondD4FGU','youtube','a39db9de-5490-499e-afcd-db5251d2cdeb');
+INSERT INTO `song` VALUES ('90b941e0-8190-4fb7-84b7-37cfd8d2f5b1','Mercury - Tere Bina','https://www.reverbnation.com/mercurybadsomeotherday/song/13614812-tere-bina','','a39db9de-5490-499e-afcd-db5251d2cdeb'),('933c40ed-c121-4cb7-951c-21253b9acea0','are you sure','https://www.youtube.com/watch?v=AWTREwT-GQI','youtube','a39db9de-5490-499e-afcd-db5251d2cdeb'),('f754953f-0426-4e95-a509-794d16e4aeb7','GTA red lips','https://www.youtube.com/watch?v=qI1ondD4FGU','youtube','a39db9de-5490-499e-afcd-db5251d2cdeb');
 /*!40000 ALTER TABLE `song` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div layout="row">
-	<div flex="10"></div>
+	<div flex="5"></div>
 	<div ng-cloak flex="{{mc.getFormFlexValue()}}">
    		<md-content class="md-whiteframe-z2">
    			<md-list>
@@ -21,6 +21,11 @@
     				<div class="md-list-item-text" layout="column">
     					<h3><a ng-href="{{message.link}}" target="_blank">{{message.name}}</a></h3>
     					<p>{{mc.constructName(message)}}</p>
+    				</div>
+    				<div>
+    					<md-button class="md-icon-button" ng-click="mc.importMessage(message)">
+    						<md-icon md-svg-icon="<c:url value="/static/images/ic_cloud_download_black_24px.svg" />" aria-label="import"></md-icon>
+    					</md-button>
     				</div>
     				<md-divider ng-if="!$last"></md-divider>
    				</md-list-item>

@@ -75,7 +75,7 @@ public class ApiController {
 			Song res = songsDao.addSong(song);
 			HttpStatus status = HttpStatus.OK;
 			if (null == res) {
-				status = HttpStatus.NOT_MODIFIED;
+				status = HttpStatus.CONFLICT;
 			}
 			return ResponseEntity.status(status.value())
 					.body(new AddSongResponse(status.value(), status.getReasonPhrase(), res));
@@ -194,6 +194,27 @@ public class ApiController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
 					.body(new UserAutocompleteResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+		}
+	}
+	
+	@RequestMapping(value="/api/song/delete/{songId}", method=RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity<ServiceResponse> deleteSong(HttpServletRequest request, @PathVariable String songId) {
+		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		if (userToken == null) {
+			System.out.println("Null user");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
+					.body(new ServiceResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()));
+		}
+		String userId = ((UserInfo)(userToken.getPrincipal())).getId();
+		
+		try {
+			songsDao.deleteSong(songId, userId);
+			return ResponseEntity.status(HttpStatus.OK.value())
+					.body(new ServiceResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+					.body(new ServiceResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}
 	}
 	

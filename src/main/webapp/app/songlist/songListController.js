@@ -7,15 +7,14 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 	var vm = this;
 	vm.getFormFlexValue = function() {
 		if ($mdMedia("xs")) {
-			vm.formFlexValue = 80;
+			vm.formFlexValue = 90;
 		} else {
 			vm.formFlexValue = 40;
 		}
 		
 		return vm.formFlexValue;
 	}
-	
-	$scope.songList;
+
 	$scope.song = {
 		"name" : "",
 		"link" : "",
@@ -44,7 +43,7 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 			$http.post("/learnspring/api/song/add", $scope.song)
 				.then(function(result){
 					console.log(result.data);
-					$scope.songList.splice(0, 0, result.data.song);
+					$rootScope.songList.splice(0, 0, result.data.song);
 					$mdToast.show(
 				      $mdToast.simple()
 				        .textContent("Song added Success : " + result.data.status )
@@ -63,6 +62,34 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 				});
 		}
 	};
+	
+	vm.deleteSong = function deleteSong(song) {
+		$http.delete("/learnspring/api/song/delete/" + song.id)
+			.then(function(result){
+					if ($rootScope.songList != undefined || $rootScope.songList != null || $rootScope.songList.length != 0) {
+						var idx = -1;
+						$rootScope.songList.forEach(function(s, index){
+							if (s.id == song.id) {
+								idx = index;
+							}
+						})
+						if (idx != -1) {
+							$rootScope.songList.splice(idx, 1);
+						}
+						$mdToast.show(
+					      $mdToast.simple("song " + song.name + " deleted : " + result.status)
+					        .position('top right')
+					        .hideDelay(1000)
+					    );
+					}
+			}, function(result){
+					$mdToast.show(
+				      $mdToast.simple("song " + song.name + " delete failed ! : " + result.status)
+				        .position('top right')
+				        .hideDelay(1000)
+					);
+			});
+	}
 	
 	vm.thumbnail = function thumbnail(link) {
 		re = /(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/;
@@ -108,24 +135,9 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 		});
 	};
 	
-	vm.initHomeController = function initHomeController() {
-		console.log("in home controller");
-		
-		//load songs
-		$http.get("/learnspring/api/song/list")
-			.then(function(result){
-				$scope.songList = result.data;
-				console.log("Song list fetched");
-				console.log($scope.songList);
-			}, function(result){
-				$mdToast.show(
-			      $mdToast.simple()
-			        .textContent("Song list could not be fetched")
-			        .position('top right')
-			        .hideDelay(1000)
-			    );
-			});
+	vm.initSongListController = function initSongListController() {
+		console.log("in songlist controller");
 	}
 	
-	vm.initHomeController();
+	vm.initSongListController();
 }

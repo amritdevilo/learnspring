@@ -76,13 +76,16 @@ public class SongsDaoImpl implements SongsDao {
 	}
 
 	@Transactional(rollbackFor={Exception.class})
-	public void deleteSong(String songId) throws DalException {
+	public void deleteSong(String songId, String userId) throws DalException {
 		try {
-			Query query  = sessionFactory.getCurrentSession().createQuery("delete from Rating where songId=:songId");
+			Query query  = sessionFactory.getCurrentSession().createQuery("delete from Rating where songId=:songId and userId=:userId");
 			query.setParameter("songId", songId);
+			query.setParameter("userId", userId);
 			query.executeUpdate();
-			query  = sessionFactory.getCurrentSession().createQuery("delete from Song where id=:songId");
-			query.setParameter("id", songId);
+			
+			query  = sessionFactory.getCurrentSession().createQuery("delete from Song where id=:songId and userId=:userId");
+			query.setParameter("songId", songId);
+			query.setParameter("userId", userId);
 			query.executeUpdate();
 		} catch (IllegalStateException e) {
 			throw new DalException(e.getMessage());
@@ -97,12 +100,13 @@ public class SongsDaoImpl implements SongsDao {
 	@Transactional(rollbackFor={Exception.class})
 	public Song addSong(Song song) throws DalException {
 		try {
-			if (isLinkExists(song.getLink())) {
+			if (song == null || song.getUserId() == null || song.getUserId().length() == 0 || isLinkExists(song.getLink(), song.getUserId())) {
 				return null;
 			}
 			sessionFactory.getCurrentSession().persist(song);
-			Query query = sessionFactory.getCurrentSession().createQuery("from Song where link=:link");
+			Query query = sessionFactory.getCurrentSession().createQuery("from Song where link=:link and userId=:userId");
 			query.setParameter("link", song.getLink());
+			query.setParameter("userId", song.getUserId());
 			return (Song)query.getSingleResult();
 		} catch (IllegalStateException e) {
 			throw new DalException(e.getMessage());
@@ -134,10 +138,11 @@ public class SongsDaoImpl implements SongsDao {
 	}
 	
 	@Transactional(rollbackFor={Exception.class})
-	public boolean isLinkExists(String link) throws DalException {
+	public boolean isLinkExists(String link, String userId) throws DalException {
 		try {
-			Query query = sessionFactory.getCurrentSession().createQuery("select id from Song where link=:link");
+			Query query = sessionFactory.getCurrentSession().createQuery("select id from Song where link=:link and userId=:userId");
 			query.setParameter("link", link);
+			query.setParameter("userId", userId);
 			List res = query.getResultList();
 			if (res != null && res.size() == 1) {
 				return true;

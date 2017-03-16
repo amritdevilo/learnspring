@@ -74,10 +74,11 @@ public class IndexController {
 	@RequestMapping(value={"/home", "/"}, method=RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model) {
 		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		if (userToken == null) {
+			return "redirect:/login";
+		}
 		UserInfo userInfo = (UserInfo)userToken.getPrincipal();
 		model.addAttribute("name", userInfo.getFirstName() + " " + userInfo.getLastName());
-//		model.addAttribute("userInfo", userInfo);
-//		model.addAttribute(new Song());
 		model.addAttribute("flashMessage", userInfo.getFlashMessage());
 		return "home";
 	}
