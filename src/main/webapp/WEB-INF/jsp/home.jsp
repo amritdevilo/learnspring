@@ -31,4 +31,5 @@
 	<script src="<c:url value="/app/account/accountController.js" />"></script>
 	<script src="<c:url value="/app/modals/addSongs/addSongModalController.js" />"></script>
 	<script src="<c:url value="/app/modals/sendMessage/sendMessageModalController.js" />"></script>
+	<script src="<c:url value="/app/modals/rateMessage/rateMessageModalController.js" />"></script>
 </html>

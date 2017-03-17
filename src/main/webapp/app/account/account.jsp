@@ -2,7 +2,7 @@
 <div layout="row">
 	<div flex="5"></div>
 	<div ng-cloak flex="{{ac.getFormFlexValue()}}">
-   		<div name="changeForm">
+   		<div>
    			<md-content layout-padding layout="column">
    				<md-input-container>
    					<label>First Name</label>
@@ -38,7 +38,6 @@
    					ng-disabled="newPasswd == undefined || confPasswd == undefined || newPasswd!=confPasswd" ng-click="ac.updateClient()">
    					Update
    				</md-button>
-   				
    			</md-content>
    		</div>
 	</div>

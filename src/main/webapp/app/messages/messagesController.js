@@ -59,31 +59,44 @@ function messagesController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDi
 	};
 	
 	vm.importMessage = function importMessage(message) {
-		payload = {
-			"name" : message.name,
-			"link" : message.link,
-			"resource" : "", 
-		}
-		
-		$http.post("/learnspring/api/song/add", payload)
-			.then(function(result){
-				$rootScope.songList.splice(0, 0, result.data.song);
-				
-				$mdToast.show(
-			      $mdToast.simple()
-			        .textContent("Song imported to library : " + result.data.status )
-			        .position('top right')
-			        .hideDelay(1000)
-			    );
-			}, function(result) {
-				console.log(result);
-				$mdToast.show(
-			      $mdToast.simple()
-			        .textContent("Something went wrong ! : " + result.data.message )
-			        .position('top right')
-			        .hideDelay(1000)
-			    );
-			});
+		$mdDialog.show({
+			templateUrl : "/learnspring/app/modals/rateMessage/rateMessageModal.jsp",
+			controller : "rateMessageModalController as rmc",
+			disableParentScroll : true,
+			hasBackdrop : true,
+		}).then(function(result){
+			var res = 0;
+			if (result == undefined || result == null || result == 0) {
+				res = 0;
+			} else {
+				res = result;
+			}
+		});
+//		payload = {
+//			"name" : message.name,
+//			"link" : message.link,
+//			"resource" : "", 
+//		}
+//		
+//		$http.post("/learnspring/api/song/add", payload)
+//			.then(function(result){
+//				$rootScope.songList.splice(0, 0, result.data.song);
+//				
+//				$mdToast.show(
+//			      $mdToast.simple()
+//			        .textContent("Song imported to library : " + result.data.status )
+//			        .position('top right')
+//			        .hideDelay(1000)
+//			    );
+//			}, function(result) {
+//				console.log(result);
+//				$mdToast.show(
+//			      $mdToast.simple()
+//			        .textContent("Something went wrong ! : " + result.data.message )
+//			        .position('top right')
+//			        .hideDelay(1000)
+//			    );
+//			});
 	};
 	
 	vm.thumbnail = function thumbnail(link) {

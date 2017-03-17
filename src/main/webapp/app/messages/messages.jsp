@@ -16,14 +16,13 @@
    					</div>
    				</md-subheader>
    				<md-list-item class="md-2-line" ng-repeat="message in messageCurrent track by $index">
-   					<div flex="5"></div>
    					<img ng-src="{{mc.thumbnail(message.link)}}" class="md-avatar" alt="{{message.link}}" />
     				<div class="md-list-item-text" layout="column">
     					<h3><a ng-href="{{message.link}}" target="_blank">{{message.name}}</a></h3>
     					<p>{{mc.constructName(message)}}</p>
     				</div>
     				<div>
-    					<md-button class="md-icon-button" ng-click="mc.importMessage(message)">
+    					<md-button class="md-icon-button md-secondary" ng-click="mc.importMessage(message)">
     						<md-icon md-svg-icon="<c:url value="/static/images/ic_cloud_download_black_24px.svg" />" aria-label="import"></md-icon>
     					</md-button>
     				</div>
