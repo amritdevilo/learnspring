@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.14, for osx10.11 (x86_64)
 --
 -- Host: localhost    Database: learnspring
 -- ------------------------------------------------------
--- Server version	5.7.17-0ubuntu0.16.04.1
+-- Server version	5.7.14
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -19,7 +19,7 @@
 -- Current Database: `learnspring`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `learnspring` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `learnspring` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `learnspring`;
 
@@ -47,7 +47,7 @@ CREATE TABLE `UserDetails` (
 
 LOCK TABLES `UserDetails` WRITE;
 /*!40000 ALTER TABLE `UserDetails` DISABLE KEYS */;
-INSERT INTO `UserDetails` VALUES ('a39db9de-5490-499e-afcd-db5251d2cdeb','sample@gmail.com','Sample','Name','$2a$10$NEKyQG5KNm8C1mI/WKjJjOf2U.MRuYtiPnORSQbZ1EA7M847OVSVy'),('d92796c4-0c20-473e-98ba-95222dbf1a1d','prateeknischal@gmail.com','Prateek','Nischal','$2a$10$CgCncnWwoyizBPSFn3mFaOyDCjRpDyFY6M5BuURxsklJKr.u32wHm');
+INSERT INTO `UserDetails` VALUES ('a39db9de-5490-499e-afcd-db5251d2cdeb','sample@gmail.com','Sample','Name','$2a$10$NEKyQG5KNm8C1mI/WKjJjOf2U.MRuYtiPnORSQbZ1EA7M847OVSVy'),('d92796c4-0c20-473e-98ba-95222dbf1a1d','prateeknischal@gmail.com','Prateek','Nischal','$2a$10$71/xwtLCqV.9KoU..CejqujvreU0dydrsOGRrg2y6BnxGlfyTRcne');
 /*!40000 ALTER TABLE `UserDetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,6 +102,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
+INSERT INTO `message` VALUES ('06b79b2a-86a4-4eae-b938-7c154b37784c','a39db9de-5490-499e-afcd-db5251d2cdeb','d92796c4-0c20-473e-98ba-95222dbf1a1d','933c40ed-c121-4cb7-951c-21253b9acea0','2017-03-16 09:12:50'),('28c904ea-80cd-4540-b6b7-f3baa30e2aa3','a39db9de-5490-499e-afcd-db5251d2cdeb','d92796c4-0c20-473e-98ba-95222dbf1a1d','90b941e0-8190-4fb7-84b7-37cfd8d2f5b1','2017-03-16 09:12:44'),('dd172e92-3bf4-4cc0-a4c9-a37e0abc6e5c','a39db9de-5490-499e-afcd-db5251d2cdeb','d92796c4-0c20-473e-98ba-95222dbf1a1d','f754953f-0426-4e95-a509-794d16e4aeb7','2017-03-16 09:12:54');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +149,7 @@ CREATE TABLE `song` (
   `resource` varchar(255) NOT NULL,
   `userId` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `link` (`link`),
+  UNIQUE KEY `song_userid` (`link`,`userId`),
   KEY `song_ibfk_1` (`userId`),
   CONSTRAINT `song_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `UserDetails` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -160,7 +161,7 @@ CREATE TABLE `song` (
 
 LOCK TABLES `song` WRITE;
 /*!40000 ALTER TABLE `song` DISABLE KEYS */;
-INSERT INTO `song` VALUES ('90b941e0-8190-4fb7-84b7-37cfd8d2f5b1','Mercury - Tere Bina','https://www.reverbnation.com/mercurybadsomeotherday/song/13614812-tere-bina','','a39db9de-5490-499e-afcd-db5251d2cdeb'),('933c40ed-c121-4cb7-951c-21253b9acea0','are you sure','https://www.youtube.com/watch?v=AWTREwT-GQI','youtube','a39db9de-5490-499e-afcd-db5251d2cdeb'),('f754953f-0426-4e95-a509-794d16e4aeb7','GTA red lips','https://www.youtube.com/watch?v=qI1ondD4FGU','youtube','a39db9de-5490-499e-afcd-db5251d2cdeb');
+INSERT INTO `song` VALUES ('2e98ebdf-a037-4761-a740-3956add7a6a7','are you sure','https://www.youtube.com/watch?v=AWTREwT-GQI','','d92796c4-0c20-473e-98ba-95222dbf1a1d'),('485e1d89-528c-4f48-a5cc-da7d5ef425f0','Mercury - Tere Bina','https://www.reverbnation.com/mercurybadsomeotherday/song/13614812-tere-bina','','d92796c4-0c20-473e-98ba-95222dbf1a1d'),('90b941e0-8190-4fb7-84b7-37cfd8d2f5b1','Mercury - Tere Bina','https://www.reverbnation.com/mercurybadsomeotherday/song/13614812-tere-bina','','a39db9de-5490-499e-afcd-db5251d2cdeb'),('933c40ed-c121-4cb7-951c-21253b9acea0','are you sure','https://www.youtube.com/watch?v=AWTREwT-GQI','youtube','a39db9de-5490-499e-afcd-db5251d2cdeb'),('9e0956bd-e7af-4c2b-8d1e-03ee42223bb9','GTA red lips','https://www.youtube.com/watch?v=qI1ondD4FGU','','d92796c4-0c20-473e-98ba-95222dbf1a1d'),('f754953f-0426-4e95-a509-794d16e4aeb7','GTA red lips','https://www.youtube.com/watch?v=qI1ondD4FGU','youtube','a39db9de-5490-499e-afcd-db5251d2cdeb');
 /*!40000 ALTER TABLE `song` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -173,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-11 23:21:45
+-- Dump completed on 2017-03-17 22:06:49
