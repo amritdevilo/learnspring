@@ -12,7 +12,7 @@ function headerController($rootScope, $scope, $state) {
 	
 	vm.dropDownList = {};
 	
-	vm.dropDownList["Account"] = function() {$state.transitionTo('account');}
+	vm.dropDownList["Account"] = function() {$state.go("account");}
 	vm.dropDownList["Logout"]  = function() {vm.doLogOut();}
 	
 	vm.dropDownListKeys = Object.keys(vm.dropDownList);
@@ -20,4 +20,11 @@ function headerController($rootScope, $scope, $state) {
 	vm.dropDownListAction = function(item) {
 		vm.dropDownList[item]();
 	}
+	
+	vm.initHeaderController = function initHeaderController() {
+		console.log("in header controller");
+		console.log("Is logged in " + $rootScope.isLoggedIn);
+	}
+	
+	vm.initHeaderController();
 };

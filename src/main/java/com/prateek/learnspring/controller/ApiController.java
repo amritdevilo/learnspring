@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,7 +67,7 @@ public class ApiController {
 	
 	@RequestMapping(value="/api/client/update", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<ServiceResponse> updateUser(HttpServletRequest request, @RequestBody ChangePassword changePassword) {
+	public ResponseEntity<ServiceResponse> updateUser(HttpServletRequest request, HttpServletResponse response, @RequestBody ChangePassword changePassword) {
 		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
 		if (userToken == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
@@ -78,6 +81,13 @@ public class ApiController {
 				System.out.println(changePassword.getOldPassword() + " " + user.getPassword());
 				String encNewPasswd = BCrypt.hashpw(changePassword.getNewPassword(), BCrypt.gensalt());
 				userDao.changeUserPassword(user.getId(), encNewPasswd);
+				HttpSession session = request.getSession(false);
+				SecurityContextHolder.clearContext();
+				
+				if (session != null) {
+					session.invalidate();
+				}
+				response.sendRedirect("login");
 				return ResponseEntity.status(HttpStatus.OK)
 						.body(new ServiceResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
 			} else {

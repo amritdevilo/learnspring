@@ -1,12 +1,12 @@
 angular.module("learnspring").controller("accountController", accountController);
 
-accountController.$inject = ["$rootScope", "$scope", "$http", "$mdToast", "$mdMedia", "$mdDialog"];
+accountController.$inject = ["$rootScope", "$scope", "$http", "$mdToast", "$mdMedia", "$mdDialog", "$timeout"];
 
-function accountController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDialog) {
+function accountController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDialog, $timeout) {
 	var vm = this;
 	vm.passwordRegEx = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 	
-	$scope.client = angular.copy($rootScope.client);
+	$scope.client = $rootScope.client;
 	
 	$scope.oldPasswd;
 	$scope.newPasswd;
@@ -24,10 +24,14 @@ function accountController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 			.then(function(result){
 				$mdToast.show(
 			      $mdToast.simple()
-			        .textContent("Update Accepted !")
+			        .textContent("Update Accepted ! Redirecting to login")
 			        .position('top right')
 			        .hideDelay(1000)
 			    );
+				$timeout(function(){
+					document.location = "/learnspring/login";
+				}, 1000);
+				
 			}, function(result) {
 				$mdToast.show(
 			      $mdToast.simple()
@@ -35,14 +39,20 @@ function accountController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 			        .position('top right')
 			        .hideDelay(1000)
 			    );
+				$scope.oldPasswd = "";
+				$scope.newPasswd = "";
+				$scope.confPasswd = "";
 			});
+		
 	}
 	
 	vm.checkClientInfo = function checkClientInfo() {
-		if ($rootScope.client == null) {
+		if ($rootScope.client == null || $rootScope.client == undefined) {
 			$http.get("/learnspring/api/client")
 				.then(function(result){
 					$rootScope.client = result.data.userInfo;
+					$scope.client = result.data.userInfo;
+					$rootScope.isLoggedIn = true;
 					console.log("client info loaded");
 					console.log($rootScope.client);
 				}, function(result) {

@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.prateek.learnspring.dao.SongsDao;
 import com.prateek.learnspring.dao.UserDao;
 import com.prateek.learnspring.exceptions.DalException;
+import com.prateek.learnspring.model.ChangePassword;
 import com.prateek.learnspring.model.ClientResponse;
 import com.prateek.learnspring.model.LoginUser;
 import com.prateek.learnspring.model.ServiceResponse;

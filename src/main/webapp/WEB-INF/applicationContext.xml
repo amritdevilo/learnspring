@@ -28,6 +28,7 @@
 	</bean>
 	<security:http auto-config="true">
 		<security:intercept-url pattern="/home**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/account**" access="hasRole('ROLE_USER')" />
 		<security:intercept-url pattern="/api/**" access="hasRole('ROLE_USER')" />
 <!-- 		<security:intercept-url pattern="/login" access="permitAll" /> -->
 <!-- 		<security:intercept-url pattern="/test" access="permitAll" /> -->
@@ -45,7 +46,7 @@
 		<security:session-management session-fixation-protection="migrateSession" 
 			invalid-session-url="/login?session=false"
 			session-authentication-error-url="/login?session=false">
-			<security:concurrency-control max-sessions="2" expired-url="/login?session=false"/>
+			<security:concurrency-control max-sessions="1" expired-url="/login?session=false"/>
 		</security:session-management>
 		
 	</security:http>

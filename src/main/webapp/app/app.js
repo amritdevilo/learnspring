@@ -37,10 +37,11 @@ angular.module('learnspring', ["ui.router", "ngMaterial"])
 				controller : 'songListController as slc'
 			})
 			.state('account', {
-				url : '/account', 
+				url : '/account',
 				templateUrl : 'app/account/account.jsp',
 				controller : 'accountController as ac'
 			});
+			
 		$urlRouterProvider.otherwise("/songlist");
 		
 	}])
