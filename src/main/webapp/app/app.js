@@ -36,12 +36,10 @@ angular.module('learnspring', ["ui.router", "ngMaterial"])
 				templateUrl : 'app/songlist/songList.jsp',
 				controller : 'songListController as slc'
 			})
-			.state('demo', {
-				url : '/demo', 
-				template : "<h3>Demo</h3>",
-				controller : function($rootScope){
-					$scope.isLoggedIn = $rootScope.isLoggedIn;
-				}
+			.state('account', {
+				url : '/account', 
+				templateUrl : 'app/account/account.jsp',
+				controller : 'accountController as ac'
 			});
 		$urlRouterProvider.otherwise("/songlist");
 		

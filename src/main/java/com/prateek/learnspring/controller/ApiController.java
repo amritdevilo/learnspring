@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,11 +23,13 @@ import com.prateek.learnspring.dao.MessageDao;
 import com.prateek.learnspring.dao.SongsDao;
 import com.prateek.learnspring.dao.UserDao;
 import com.prateek.learnspring.model.AddSongResponse;
+import com.prateek.learnspring.model.ChangePassword;
 import com.prateek.learnspring.model.ClientResponse;
 import com.prateek.learnspring.model.Message;
 import com.prateek.learnspring.model.ServiceResponse;
 import com.prateek.learnspring.model.Song;
 import com.prateek.learnspring.model.SongAndRating;
+import com.prateek.learnspring.model.User;
 import com.prateek.learnspring.model.UserAutocompleteResponse;
 import com.prateek.learnspring.model.UserInfo;
 import com.prateek.learnspring.model.UserMessage;
@@ -58,6 +61,35 @@ public class ApiController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new ClientResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), userInfo));
 	}
+	
+	@RequestMapping(value="/api/client/update", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<ServiceResponse> updateUser(HttpServletRequest request, @RequestBody ChangePassword changePassword) {
+		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		if (userToken == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
+					.body(new ServiceResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()));
+		}
+		
+		UserInfo userInfo = (UserInfo)userToken.getPrincipal();
+		try {
+			User user = userDao.getUser(userInfo.getId());
+			if (BCrypt.checkpw(changePassword.getOldPassword(), user.getPassword())) {
+				System.out.println(changePassword.getOldPassword() + " " + user.getPassword());
+				String encNewPasswd = BCrypt.hashpw(changePassword.getNewPassword(), BCrypt.gensalt());
+				userDao.changeUserPassword(user.getId(), encNewPasswd);
+				return ResponseEntity.status(HttpStatus.OK)
+						.body(new ServiceResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+			} else {
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+						.body(new ServiceResponse(HttpStatus.UNAUTHORIZED.value(), "Invalid values"));
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ServiceResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+		}
+	}
+	
 	
 	@RequestMapping(value="/api/song/add", method=RequestMethod.POST)
 	@ResponseBody

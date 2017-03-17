@@ -1,8 +1,8 @@
 angular.module("learnspring").controller("headerController", headerController);
 
-headerController.$inject = ["$rootScope", "$scope"];
+headerController.$inject = ["$rootScope", "$scope", "$state"];
 
-function headerController($rootScope, $scope) {
+function headerController($rootScope, $scope, $state) {
 	var vm = this;
 	vm.doLogOut = function() {
 		console.log("logging out");
@@ -12,7 +12,7 @@ function headerController($rootScope, $scope) {
 	
 	vm.dropDownList = {};
 	
-	vm.dropDownList["Account"] = function() {console.log("account");}
+	vm.dropDownList["Account"] = function() {$state.transitionTo('account');}
 	vm.dropDownList["Logout"]  = function() {vm.doLogOut();}
 	
 	vm.dropDownListKeys = Object.keys(vm.dropDownList);

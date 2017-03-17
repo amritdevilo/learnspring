@@ -32,6 +32,17 @@ function homeController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDialog
 			        .hideDelay(1000)
 			    );
 			});
+		
+		//load client info
+		$http.get("/learnspring/api/client")
+			.then(function(result){
+				$rootScope.client = result.data.userInfo;
+				console.log("client info loaded");
+				console.log($rootScope.client);
+			}, function(result) {
+				$rootScope.client;
+				console.log("client info could not be retrieved");
+			})
 	}
 	
 	vm.initHomeController();

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prateek.learnspring.exceptions.DalException;
+import com.prateek.learnspring.model.ChangePassword;
 import com.prateek.learnspring.model.User;
 import com.prateek.learnspring.model.UserSearch;
 
@@ -31,7 +32,6 @@ public class UserDaoImpl implements UserDao {
 	public boolean addUser(User user) throws DalException {
 		try {
 			Session session = this.sessionFactory.getCurrentSession();
-			user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 			session.save(user);
 			return true;
 		} catch (ConstraintViolationException e) {
@@ -47,7 +47,8 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	public User getUser(int id) throws DalException {
+	@Transactional(rollbackFor=Exception.class)
+	public User getUser(String id) throws DalException {
 		try {
 			Session session = this.sessionFactory.getCurrentSession();
 			return session.get(User.class, id);
@@ -62,6 +63,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@SuppressWarnings("rawtypes")
+	@Transactional(rollbackFor=Exception.class)
 	public List getAllUsers() throws DalException {
 		try {
 			Session session = this.sessionFactory.getCurrentSession();
@@ -77,7 +79,7 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 	
-	@Transactional
+	@Transactional(rollbackFor=Exception.class)
 	public boolean isEmailExists(String email) throws DalException {
 		try{
 			Session session = this.sessionFactory.getCurrentSession();
@@ -118,7 +120,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	
-	@Transactional
+	@Transactional(rollbackFor=Exception.class)
 	public List<UserSearch> getUserList(String key) throws DalException {
 		try {
 			String sql = "select u.id as userId, u.firstName, u.lastName, u.email from UserDetails u "
@@ -136,5 +138,22 @@ public class UserDaoImpl implements UserDao {
 			e.printStackTrace();
 			throw new DalException(e.getMessage());
 		}
+	}
+
+	@Transactional(rollbackFor=Exception.class)
+	public void changeUserPassword(String userId, String hashpw) throws DalException {
+		try {
+			Query query = this.sessionFactory.getCurrentSession().createQuery("update User set password=:hashpw where id=:userId");
+			query.setParameter("hashpw", hashpw);
+			query.setParameter("userId", userId);
+			query.executeUpdate();
+		} catch (IllegalStateException e) {
+			throw new DalException(e.getMessage());
+		} catch (QueryTimeoutException e) {
+			throw new DalException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DalException(e.getMessage());
+		} 	
 	}
 }

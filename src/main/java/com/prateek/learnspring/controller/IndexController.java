@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,6 +57,7 @@ public class IndexController {
 			if (userDao.isEmailExists(user.getEmail())) {
 				message = "Email Already exists !";
 			} else {
+				user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 				boolean isOk = userDao.addUser(user);
 			}
 			redirectAttributes.addFlashAttribute("message", message);
