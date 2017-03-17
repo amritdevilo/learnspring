@@ -17,7 +17,7 @@
     					<h3><a ng-href="{{song.link}}" target="_blank">{{song.name}}</a></h3>
     				</div>
     				<div>
-    					<md-button class="md-icon-button" ng-click="slc.deleteSong(song)">
+    					<md-button class="md-icon-button" ng-click="slc.showConfirm($event, song)">
     						<md-icon class="md-icon-button" md-svg-icon="<c:url value="/static/images/ic_delete_black_24px.svg" />" aria-label="delete"/> 
     					</md-button>
     					<md-button class="md-icon-button" ng-click="slc.sendMessage(song)">

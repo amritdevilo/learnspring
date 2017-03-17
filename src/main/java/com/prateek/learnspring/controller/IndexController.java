@@ -82,6 +82,5 @@ public class IndexController {
 		model.addAttribute("flashMessage", userInfo.getFlashMessage());
 		return "home";
 	}
-	
-	
+
 }

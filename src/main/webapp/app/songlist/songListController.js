@@ -91,6 +91,22 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 			});
 	}
 	
+	vm.showConfirm = function showConfirm(ev, song) {
+	    var confirm = $mdDialog.confirm()
+	          .title('Delete song?')
+	          .textContent('Do you want to delete this song?')
+	          .ariaLabel('del_song')
+	          .targetEvent(ev)
+	          .ok('Yes')
+	          .cancel('No');
+
+	    $mdDialog.show(confirm).then(function() {
+	    	vm.deleteSong(song);
+	    }, function() {
+	    	
+	    });
+	  };
+	
 	vm.thumbnail = function thumbnail(link) {
 		re = /(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/;
 		res = link.match(re);
