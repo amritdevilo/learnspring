@@ -17,11 +17,9 @@ import javax.persistence.ConstructorResult;
 	classes = {
 			@ConstructorResult(targetClass=SongAndRating.class, 
 					columns = {
-							@ColumnResult(name="ratingId", type=String.class),
 							@ColumnResult(name="songId", type=String.class),
 							@ColumnResult(name="songName", type=String.class),
 							@ColumnResult(name="link", type=String.class),
-							@ColumnResult(name="resource", type=String.class),
 							@ColumnResult(name="rating", type=Float.class)
 			})
 	}),
@@ -36,8 +34,7 @@ import javax.persistence.ConstructorResult;
 							@ColumnResult(name="email", type=String.class),
 							@ColumnResult(name="songId", type=String.class),
 							@ColumnResult(name="name", type=String.class),
-							@ColumnResult(name="link", type=String.class),
-//							@ColumnResult(name="ts", type=Timestamp.class),
+							@ColumnResult(name="link", type=String.class)
 					})
 	})
 })

@@ -71,32 +71,38 @@ function messagesController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDi
 			} else {
 				res = result;
 			}
+			payload = {
+				"songId" : message.songId,
+				"rating" : res
+			}
+			
+			$http.post("/learnspring/api/message/import", payload)
+				.then(function(result){
+					song = {
+						"songName" : message.name,
+						"link" : message.link,
+						"rating" : res,
+						"songId" : message.songId,
+						"resource" : ""
+					}
+					$rootScope.songList.splice(0, 0, song);
+					
+					$mdToast.show(
+				      $mdToast.simple()
+				        .textContent("Song imported to library : " + result.data.status )
+				        .position('top right')
+				        .hideDelay(1000)
+				    );
+				}, function(result) {
+					console.log(result);
+					$mdToast.show(
+				      $mdToast.simple()
+				        .textContent("Something went wrong ! : " + result.data.message )
+				        .position('top right')
+				        .hideDelay(1000)
+				    );
+				});
 		});
-//		payload = {
-//			"name" : message.name,
-//			"link" : message.link,
-//			"resource" : "", 
-//		}
-//		
-//		$http.post("/learnspring/api/song/add", payload)
-//			.then(function(result){
-//				$rootScope.songList.splice(0, 0, result.data.song);
-//				
-//				$mdToast.show(
-//			      $mdToast.simple()
-//			        .textContent("Song imported to library : " + result.data.status )
-//			        .position('top right')
-//			        .hideDelay(1000)
-//			    );
-//			}, function(result) {
-//				console.log(result);
-//				$mdToast.show(
-//			      $mdToast.simple()
-//			        .textContent("Something went wrong ! : " + result.data.message )
-//			        .position('top right')
-//			        .hideDelay(1000)
-//			    );
-//			});
 	};
 	
 	vm.thumbnail = function thumbnail(link) {

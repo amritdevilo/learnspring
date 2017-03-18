@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.Message;
+import com.prateek.learnspring.model.MessageImport;
+import com.prateek.learnspring.model.Rating;
 import com.prateek.learnspring.model.UserMessage;
 
 public class MessageDaoImpl implements MessageDao {
@@ -111,6 +113,34 @@ public class MessageDaoImpl implements MessageDao {
 			int _from = Math.max(0, from);
 			int _to = Math.min(res.size(), to); // exclusive
 			return new ArrayList<UserMessage>(res.subList(_from, _to));
+		} catch (IllegalStateException e) {
+			throw new DalException(e.getMessage());
+		} catch (QueryTimeoutException e) {
+			throw new DalException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DalException(e.getMessage());
+		}
+	}
+
+	@Transactional(rollbackFor={DalException.class})
+	public void importMessage(MessageImport messageImport) throws DalException {
+		try {
+			Query query = this.sessionFactory.getCurrentSession().createQuery("select id from Rating where songId=:songId and userId=:userId");
+			query.setParameter("songId", messageImport.getSongId());
+			query.setParameter("userId", messageImport.getUserId());
+			
+			List res = query.getResultList();
+			
+			if (res != null && res.size() > 0) {
+				query = this.sessionFactory.getCurrentSession().createQuery("update Rating r set r.rating=:rating where songId=:songId and userId=:userId");
+				query.setParameter("songId", messageImport.getSongId());
+				query.setParameter("userId", messageImport.getUserId());
+				query.setParameter("rating", messageImport.getRating());
+			} else {
+				Rating rating = new Rating(messageImport.getSongId(), messageImport.getUserId(), messageImport.getRating());
+				this.sessionFactory.getCurrentSession().save(rating);
+			}
 		} catch (IllegalStateException e) {
 			throw new DalException(e.getMessage());
 		} catch (QueryTimeoutException e) {

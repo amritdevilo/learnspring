@@ -2,34 +2,24 @@ package com.prateek.learnspring.model;
 
 public class SongAndRating {
 	
-	private String ratingId;
-	
 	private String songId;
 	
 	private String songName;
 	
 	private String link;
 	
-	private String resource;
-	
 	private float rating;
-
-	public SongAndRating(String ratingId, String songId, String songName, String link, String resource, float rating) {
+	
+	public SongAndRating() {
 		super();
-		this.ratingId = ratingId;
+	}
+
+	public SongAndRating(String songId, String songName, String link, float rating) {
+		super();
 		this.songId = songId;
 		this.songName = songName;
 		this.link = link;
-		this.resource = resource;
 		this.rating = rating;
-	}
-
-	public String getRatingId() {
-		return ratingId;
-	}
-
-	public void setRatingId(String ratingId) {
-		this.ratingId = ratingId;
 	}
 
 	public String getSongId() {
@@ -54,14 +44,6 @@ public class SongAndRating {
 
 	public void setLink(String link) {
 		this.link = link;
-	}
-
-	public String getResource() {
-		return resource;
-	}
-
-	public void setResource(String resource) {
-		this.resource = resource;
 	}
 
 	public float getRating() {

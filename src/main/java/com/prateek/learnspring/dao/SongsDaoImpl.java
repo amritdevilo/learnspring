@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prateek.learnspring.exceptions.DalException;
+import com.prateek.learnspring.model.AddSongRequest;
 import com.prateek.learnspring.model.Rating;
 import com.prateek.learnspring.model.Song;
 import com.prateek.learnspring.model.SongAndRating;
@@ -28,8 +29,8 @@ public class SongsDaoImpl implements SongsDao {
 	@Transactional
 	public List<SongAndRating> getSongsAndRatingsbyUser(String userId) throws DalException {
 		try {
-			Query query = sessionFactory.getCurrentSession().createNativeQuery("select r.id as ratingId, s.id as songId, s.name as songName, s.link, s.resource, r.rating "
-					+ "from rating r left join song s on r.songId=s.id where r.userId=:userId", "SongAndRatingDtoMapping");
+			Query query = sessionFactory.getCurrentSession().createNativeQuery("select s.id as songId, s.name as songName, s.link, r.rating "
+					+ "from song s left join rating r on r.songId=s.id where r.userId=:userId", "SongAndRatingDtoMapping");
 			query.setParameter("userId", userId);
 			List<SongAndRating> result = query.getResultList();
 			return result;
@@ -98,16 +99,22 @@ public class SongsDaoImpl implements SongsDao {
 	}
 
 	@Transactional(rollbackFor={Exception.class})
-	public Song addSong(Song song) throws DalException {
+	public Song addSong(AddSongRequest song) throws DalException {
 		try {
 			if (song == null || song.getUserId() == null || song.getUserId().length() == 0 || isLinkExists(song.getLink(), song.getUserId())) {
 				return null;
 			}
-			sessionFactory.getCurrentSession().persist(song);
+			
+			Song s = new Song(song.getName(), song.getLink(), song.getUserId());
+			sessionFactory.getCurrentSession().persist(s);
 			Query query = sessionFactory.getCurrentSession().createQuery("from Song where link=:link and userId=:userId");
 			query.setParameter("link", song.getLink());
 			query.setParameter("userId", song.getUserId());
-			return (Song)query.getSingleResult();
+			Song res = (Song)query.getSingleResult();
+			
+			Rating rating = new Rating(res.getId(), res.getUserId(), song.getRating());
+			sessionFactory.getCurrentSession().save(rating);
+			return s;
 		} catch (IllegalStateException e) {
 			throw new DalException(e.getMessage());
 		} catch (QueryTimeoutException e) {
@@ -121,10 +128,9 @@ public class SongsDaoImpl implements SongsDao {
 	@Transactional(rollbackFor={Exception.class})
 	public void updateSong(Song song) throws DalException {
 		try {
-			Query query  = sessionFactory.getCurrentSession().createQuery("update Song set name=:name, link=:link, resource=:resource where id=:id");
+			Query query  = sessionFactory.getCurrentSession().createQuery("update Song set name=:name, link=:link where id=:id");
 			query.setParameter("name", song.getName());
 			query.setParameter("link", song.getLink());
-			query.setParameter("resource", song.getResource());
 			query.setParameter("id", song.getId());
 			query.executeUpdate();
 		} catch (IllegalStateException e) {
@@ -174,5 +180,24 @@ public class SongsDaoImpl implements SongsDao {
 			throw new DalException(e.getMessage());
 		}
 	}
-
+	
+	@Transactional(rollbackFor={Exception.class})
+	public SongAndRating getSongAndRatingbyUser(String userId, String songId) throws DalException {
+		try {
+			Query query = sessionFactory.getCurrentSession().createNativeQuery("select s.id as songId, s.name as songName, s.link, r.rating "
+					+ "from song s left join rating r on r.songId=s.id where r.userId=:userId and s.id=:songId", "SongAndRatingDtoMapping");
+			query.setParameter("userId", userId);
+			query.setParameter("songId", songId);
+			
+			SongAndRating res = (SongAndRating) query.getSingleResult();
+			return res;
+		} catch (IllegalStateException e) {
+			throw new DalException(e.getMessage());
+		} catch (QueryTimeoutException e) {
+			throw new DalException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DalException(e.getMessage());
+		}
+	}
 }

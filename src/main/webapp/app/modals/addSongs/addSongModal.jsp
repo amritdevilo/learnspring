@@ -14,10 +14,13 @@
 				<label>Link</label>
 				<input id="link" name="link" ng-model="song.link"/>
 			</md-input-container>
-			<md-input-container>
-				<label>Resource</label>
-				<input id="resource" name="resource" ng-model="song.resource" />
-			</md-input-container>
+			<div class="md-dialog-content">
+			<md-slider-container>
+				<span>Rating</span>
+				<md-slider flex min="0" max="5" step="0.5" ng-model="song.rating"></md-slider>
+			</md-slider-container>
+			<div style="text-align: center">{{song.rating}}</div>
+		</div>
 		</div>
 	</md-dialog-content>
 	

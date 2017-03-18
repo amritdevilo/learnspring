@@ -34,7 +34,7 @@ function sendMessageModalController($rootScope, $scope, $mdDialog, $http, song) 
 		console.log(vm.toId);
 		message = {
 			"toId" : vm.toId.userId,
-			"songId" : song.id
+			"songId" : song.songId
 		}
 		
 		$mdDialog.hide(message);

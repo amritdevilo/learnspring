@@ -64,12 +64,12 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 	};
 	
 	vm.deleteSong = function deleteSong(song) {
-		$http.delete("/learnspring/api/song/delete/" + song.id)
+		$http.delete("/learnspring/api/song/delete/" + song.songId)
 			.then(function(result){
 					if ($rootScope.songList != undefined || $rootScope.songList != null || $rootScope.songList.length != 0) {
 						var idx = -1;
 						$rootScope.songList.forEach(function(s, index){
-							if (s.id == song.id) {
+							if (s.songId == song.songId) {
 								idx = index;
 							}
 						})
@@ -77,14 +77,14 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 							$rootScope.songList.splice(idx, 1);
 						}
 						$mdToast.show(
-					      $mdToast.simple("song " + song.name + " deleted : " + result.status)
+					      $mdToast.simple("song " + song.songName + " deleted : " + result.status)
 					        .position('top right')
 					        .hideDelay(1000)
 					    );
 					}
 			}, function(result){
 					$mdToast.show(
-				      $mdToast.simple("song " + song.name + " delete failed ! : " + result.status)
+				      $mdToast.simple("song " + song.songName + " delete failed ! : " + result.status)
 				        .position('top right')
 				        .hideDelay(1000)
 					);

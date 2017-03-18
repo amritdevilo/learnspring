@@ -4,11 +4,10 @@ addSongModalController.$inject = ["$rootScope", "$scope", "$mdMedia", "$mdDialog
 
 function addSongModalController($rootScope, $scope, $mdMedia, $mdDialog) {
 	var vm = this;
-	
 	$scope.song = {
-		"name" : "",
+		"songName" : "",
 		"link" : "",
-		"resource" : ""
+		"rating" : 0.0
 	}
 	
 	//TODO write validator code

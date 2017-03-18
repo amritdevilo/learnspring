@@ -19,9 +19,9 @@ function homeController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDialog
 		console.log("in home controller");
 		
 		//load songs
-		$http.get("/learnspring/api/song/list")
+		$http.get("/learnspring/api/song/ratedList")
 			.then(function(result){
-				$rootScope.songList = result.data;
+				$rootScope.songList = result.data.songList;
 				console.log("Song list fetched");
 				console.log($rootScope.songList);
 			}, function(result){

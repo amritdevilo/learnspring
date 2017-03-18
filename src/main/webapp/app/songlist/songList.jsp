@@ -13,7 +13,8 @@
    				<md-list-item class="md-2-line" ng-repeat="song in songList track by $index">
    					<img ng-src="{{slc.thumbnail(song.link)}}" class="md-avatar" alt="{{song.link}}" />
     				<div flex class="md-list-item-text" layout="column">
-    					<h3><a ng-href="{{song.link}}" target="_blank">{{song.name}}</a></h3>
+    					<h3><a ng-href="{{song.link}}" target="_blank">{{song.songName}}</a></h3>
+    					<p>Rating : {{song.rating}}</p>
     				</div>
     				<div>
     					<md-button class="md-icon-button md-secondary" ng-click="slc.showConfirm($event, song)">

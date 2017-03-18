@@ -25,13 +25,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.prateek.learnspring.dao.MessageDao;
 import com.prateek.learnspring.dao.SongsDao;
 import com.prateek.learnspring.dao.UserDao;
+import com.prateek.learnspring.model.AddSongRequest;
 import com.prateek.learnspring.model.AddSongResponse;
 import com.prateek.learnspring.model.ChangePassword;
 import com.prateek.learnspring.model.ClientResponse;
 import com.prateek.learnspring.model.Message;
+import com.prateek.learnspring.model.MessageImport;
 import com.prateek.learnspring.model.ServiceResponse;
 import com.prateek.learnspring.model.Song;
 import com.prateek.learnspring.model.SongAndRating;
+import com.prateek.learnspring.model.SongAndRatingResponse;
+import com.prateek.learnspring.model.SongsAndRatingsResponse;
 import com.prateek.learnspring.model.User;
 import com.prateek.learnspring.model.UserAutocompleteResponse;
 import com.prateek.learnspring.model.UserInfo;
@@ -103,38 +107,42 @@ public class ApiController {
 	
 	@RequestMapping(value="/api/song/add", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<AddSongResponse> addSong(HttpServletRequest request, @RequestBody Song song) {
+	public ResponseEntity<SongAndRatingResponse> addSong(HttpServletRequest request, @RequestBody AddSongRequest song) {
 		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
 		if (userToken == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
-					.body(new AddSongResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()));
+					.body(new SongAndRatingResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()));
 		}
 		
 		String userId = ((UserInfo)(userToken.getPrincipal())).getId();
 		try {
 			System.out.println(song.getName() + " " + song.getLink());
 			song.setUserId(userId);
-			Song res = songsDao.addSong(song);
+			Song s = songsDao.addSong(song);
+			
 			HttpStatus status = HttpStatus.OK;
-			if (null == res) {
+			SongAndRating res = null;
+			if (null == s) {
 				status = HttpStatus.CONFLICT;
+			} else {
+				res = songsDao.getSongAndRatingbyUser(userId, s.getId());
 			}
 			return ResponseEntity.status(status.value())
-					.body(new AddSongResponse(status.value(), status.getReasonPhrase(), res));
+					.body(new SongAndRatingResponse(status.value(), status.getReasonPhrase(), res));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-					.body(new AddSongResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+					.body(new SongAndRatingResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}
 	}
 	
 	@RequestMapping(value="/api/song/ratedList", method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<ArrayList<SongAndRating>> getSongAndRating(HttpServletRequest request) {
+	public ResponseEntity<SongsAndRatingsResponse> getSongAndRating(HttpServletRequest request) {
 		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
 		if (userToken == null) {
 			System.out.println("Null user");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
-					.body(new ArrayList<SongAndRating>());
+					.body(new SongsAndRatingsResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()));
 		}
 		
 		String userId = ((UserInfo)(userToken.getPrincipal())).getId();
@@ -142,10 +150,10 @@ public class ApiController {
 		try {
 			ArrayList<SongAndRating> list = (ArrayList<SongAndRating>) songsDao.getSongsAndRatingsbyUser(userId);
 			return ResponseEntity.status(HttpStatus.OK.value())
-					.body(list);
+					.body(new SongsAndRatingsResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), list));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-					.body(new ArrayList<SongAndRating>());
+					.body(new SongsAndRatingsResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}
 	}
 	
@@ -219,6 +227,30 @@ public class ApiController {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
 					.body(new UserMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+		}
+	}
+	
+	@RequestMapping(value="/api/message/import", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<ServiceResponse> importMessage(HttpServletRequest request, @RequestBody MessageImport messageImport) {
+		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		if (userToken == null) {
+			System.out.println("Null user");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
+					.body(new ServiceResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()));
+		}
+		
+		String userId = ((UserInfo)(userToken.getPrincipal())).getId();
+		messageImport.setUserId(userId);
+		
+		try {
+			messageDao.importMessage(messageImport);
+			return ResponseEntity.status(HttpStatus.OK.value())
+					.body(new ServiceResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+					.body(new ServiceResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
 		}
 	}
 	
