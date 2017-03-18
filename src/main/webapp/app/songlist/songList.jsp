@@ -6,7 +6,7 @@
    			<md-list>
    				<md-subheader class="md-no-sticky">
    					<div layout="row">
-   						<div flex><p style="vertical-align:middle">Your songs</p></div>
+   						<div><p style="vertical-align:middle">Your songs</p></div>
    						<md-button ng-click="slc.addSong()">Add</md-button>
    					</div>
    				</md-subheader>
@@ -14,7 +14,7 @@
    					<img ng-src="{{slc.thumbnail(song.link)}}" class="md-avatar" alt="{{song.link}}" />
     				<div flex class="md-list-item-text" layout="column">
     					<h3><a ng-href="{{song.link}}" target="_blank">{{song.songName}}</a></h3>
-    					<p>Rating : {{song.rating}}</p>
+    					<p>Rating : {{song.rating == 0 ? "unrated" : song.rating}}</p>
     				</div>
     				<div>
     					<md-button class="md-icon-button md-secondary" ng-click="slc.showConfirm($event, song)">

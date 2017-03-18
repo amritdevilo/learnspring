@@ -26,11 +26,11 @@ public class SongsDaoImpl implements SongsDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	@Transactional
+	@Transactional(rollbackFor={Exception.class})
 	public List<SongAndRating> getSongsAndRatingsbyUser(String userId) throws DalException {
 		try {
-			Query query = sessionFactory.getCurrentSession().createNativeQuery("select s.id as songId, s.name as songName, s.link, r.rating "
-					+ "from song s left join rating r on r.songId=s.id where r.userId=:userId", "SongAndRatingDtoMapping");
+			Query query = sessionFactory.getCurrentSession().createNativeQuery("select s.id as songId, s.name as songName, s.link, IFNULL(r.rating, 0.0) as rating "
+					+ "from song s left join rating r on r.songId=s.id where s.userId=:userId", "SongAndRatingDtoMapping");
 			query.setParameter("userId", userId);
 			List<SongAndRating> result = query.getResultList();
 			return result;
@@ -184,8 +184,8 @@ public class SongsDaoImpl implements SongsDao {
 	@Transactional(rollbackFor={Exception.class})
 	public SongAndRating getSongAndRatingbyUser(String userId, String songId) throws DalException {
 		try {
-			Query query = sessionFactory.getCurrentSession().createNativeQuery("select s.id as songId, s.name as songName, s.link, r.rating "
-					+ "from song s left join rating r on r.songId=s.id where r.userId=:userId and s.id=:songId", "SongAndRatingDtoMapping");
+			Query query = sessionFactory.getCurrentSession().createNativeQuery("select s.id as songId, s.name as songName, s.link, IFNULL(r.rating, 0.0) as rating "
+					+ "from song s left join rating r on r.songId=s.id where s.userId=:userId and s.id=:songId", "SongAndRatingDtoMapping");
 			query.setParameter("userId", userId);
 			query.setParameter("songId", songId);
 			

@@ -85,7 +85,17 @@ function messagesController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDi
 						"songId" : message.songId,
 						"resource" : ""
 					}
-					$rootScope.songList.splice(0, 0, song);
+					
+					var idx = -1;
+					idx = $rootScope.songList.findIndex(function(song){
+						return (song.songId == message.songId);
+					});
+					
+					if (idx == -1) {
+						$rootScope.songList.splice(0, 0, song);
+					} else {
+						$rootScope.songList[idx].rating = res;
+					}
 					
 					$mdToast.show(
 				      $mdToast.simple()

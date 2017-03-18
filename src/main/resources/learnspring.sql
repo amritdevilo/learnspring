@@ -69,7 +69,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (11);
+INSERT INTO `hibernate_sequence` VALUES (13);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,7 +102,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` VALUES ('2e31f7c7-55e5-41da-be64-118d9f5b8490','d92796c4-0c20-473e-98ba-95222dbf1a1d','a39db9de-5490-499e-afcd-db5251d2cdeb','cebf7b64-7773-4652-954b-97d8bbd237ca','2017-03-18 15:33:15');
+INSERT INTO `message` VALUES ('2e31f7c7-55e5-41da-be64-118d9f5b8490','d92796c4-0c20-473e-98ba-95222dbf1a1d','a39db9de-5490-499e-afcd-db5251d2cdeb','cebf7b64-7773-4652-954b-97d8bbd237ca','2017-03-18 15:33:15'),('5005c476-8378-43bd-a267-182ff05f8bd1','d92796c4-0c20-473e-98ba-95222dbf1a1d','d92796c4-0c20-473e-98ba-95222dbf1a1d','6de455de-dcf0-42fc-a011-31ae8486d6d4','2017-03-18 16:53:49');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,13 +114,13 @@ DROP TABLE IF EXISTS `rating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating` (
-  `id` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL,
   `songId` varchar(255) NOT NULL,
   `userId` varchar(255) NOT NULL,
   `rating` float(2,1) DEFAULT '0.0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `songId_userId` (`songId`,`userId`),
-  KEY `rating_ibfk_2` (`userId`),
+  KEY `userId` (`userId`),
   CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`songId`) REFERENCES `song` (`id`),
   CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `UserDetails` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -132,7 +132,7 @@ CREATE TABLE `rating` (
 
 LOCK TABLES `rating` WRITE;
 /*!40000 ALTER TABLE `rating` DISABLE KEYS */;
-INSERT INTO `rating` VALUES ('10','cebf7b64-7773-4652-954b-97d8bbd237ca','a39db9de-5490-499e-afcd-db5251d2cdeb',3.5),('8','6de455de-dcf0-42fc-a011-31ae8486d6d4','d92796c4-0c20-473e-98ba-95222dbf1a1d',3.5),('9','cebf7b64-7773-4652-954b-97d8bbd237ca','d92796c4-0c20-473e-98ba-95222dbf1a1d',4.0);
+INSERT INTO `rating` VALUES (11,'6de455de-dcf0-42fc-a011-31ae8486d6d4','d92796c4-0c20-473e-98ba-95222dbf1a1d',4.0),(12,'33ba1868-c9ca-4100-a519-86395a0dbfeb','d92796c4-0c20-473e-98ba-95222dbf1a1d',4.0);
 /*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +161,7 @@ CREATE TABLE `song` (
 
 LOCK TABLES `song` WRITE;
 /*!40000 ALTER TABLE `song` DISABLE KEYS */;
-INSERT INTO `song` VALUES ('6de455de-dcf0-42fc-a011-31ae8486d6d4','Memtrix - All you are','https://soundcloud.com/mrsuicidesheep/memtrix-all-you-are','d92796c4-0c20-473e-98ba-95222dbf1a1d'),('cebf7b64-7773-4652-954b-97d8bbd237ca','Here without you - Gon Haziri','https://soundcloud.com/sulfyderz/3-doors-down-here-without-you-sonik-gon-haziri-remix-boyce-avenue-cover','d92796c4-0c20-473e-98ba-95222dbf1a1d');
+INSERT INTO `song` VALUES ('33ba1868-c9ca-4100-a519-86395a0dbfeb','Bittersweet','https://www.youtube.com/watch?v=YysA79k4gfY','d92796c4-0c20-473e-98ba-95222dbf1a1d'),('6de455de-dcf0-42fc-a011-31ae8486d6d4','Memtrix - All you are','https://soundcloud.com/mrsuicidesheep/memtrix-all-you-are','d92796c4-0c20-473e-98ba-95222dbf1a1d'),('cebf7b64-7773-4652-954b-97d8bbd237ca','Here without you - Gon Haziri','https://soundcloud.com/sulfyderz/3-doors-down-here-without-you-sonik-gon-haziri-remix-boyce-avenue-cover','d92796c4-0c20-473e-98ba-95222dbf1a1d');
 /*!40000 ALTER TABLE `song` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -174,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-18 21:05:55
+-- Dump completed on 2017-03-18 23:36:22

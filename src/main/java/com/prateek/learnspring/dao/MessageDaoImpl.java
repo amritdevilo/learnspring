@@ -137,6 +137,8 @@ public class MessageDaoImpl implements MessageDao {
 				query.setParameter("songId", messageImport.getSongId());
 				query.setParameter("userId", messageImport.getUserId());
 				query.setParameter("rating", messageImport.getRating());
+				
+				query.executeUpdate();
 			} else {
 				Rating rating = new Rating(messageImport.getSongId(), messageImport.getUserId(), messageImport.getRating());
 				this.sessionFactory.getCurrentSession().save(rating);
