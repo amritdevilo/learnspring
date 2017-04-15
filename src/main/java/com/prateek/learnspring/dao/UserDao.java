@@ -2,9 +2,9 @@ package com.prateek.learnspring.dao;
 
 import java.util.List;
 
+import com.prateek.learnspring.entity.User;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.ChangePassword;
-import com.prateek.learnspring.model.User;
 import com.prateek.learnspring.model.UserSearch;
 
 public interface UserDao {

@@ -10,10 +10,10 @@ import javax.persistence.QueryTimeoutException;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.prateek.learnspring.entity.Message;
+import com.prateek.learnspring.entity.Rating;
 import com.prateek.learnspring.exceptions.DalException;
-import com.prateek.learnspring.model.Message;
 import com.prateek.learnspring.model.MessageImport;
-import com.prateek.learnspring.model.Rating;
 import com.prateek.learnspring.model.UserMessage;
 
 public class MessageDaoImpl implements MessageDao {

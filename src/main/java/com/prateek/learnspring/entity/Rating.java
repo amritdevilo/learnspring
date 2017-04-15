@@ -1,6 +1,4 @@
-package com.prateek.learnspring.model;
-
-import java.sql.Timestamp;
+package com.prateek.learnspring.entity;
 
 import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
@@ -8,6 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import com.prateek.learnspring.model.SongAndRating;
+import com.prateek.learnspring.model.UserMessage;
+
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
 import javax.persistence.ConstructorResult;
@@ -40,7 +43,15 @@ import javax.persistence.ConstructorResult;
 })
 
 @Entity
-@Table(name="rating")
+@Table(
+		name="rating",
+		uniqueConstraints = {
+				@UniqueConstraint(
+						columnNames = {"songId", "userId"},
+						name="songId_userId"
+				)
+		}
+)
 public class Rating {
 	
 	@Id

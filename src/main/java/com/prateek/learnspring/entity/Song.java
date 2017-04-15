@@ -1,4 +1,4 @@
-package com.prateek.learnspring.model;
+package com.prateek.learnspring.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

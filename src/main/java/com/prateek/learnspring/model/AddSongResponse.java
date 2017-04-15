@@ -1,5 +1,7 @@
 package com.prateek.learnspring.model;
 
+import com.prateek.learnspring.entity.Song;
+
 public class AddSongResponse extends ServiceResponse {
 	
 	private Song song;

@@ -2,9 +2,9 @@ package com.prateek.learnspring.dao;
 
 import java.util.List;
 
+import com.prateek.learnspring.entity.Song;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.AddSongRequest;
-import com.prateek.learnspring.model.Song;
 import com.prateek.learnspring.model.SongAndRating;
 
 public interface SongsDao {

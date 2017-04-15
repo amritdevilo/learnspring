@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.prateek.learnspring.dao.UserDao;
-import com.prateek.learnspring.model.User;
+import com.prateek.learnspring.entity.User;
 import com.prateek.learnspring.model.UserInfo;
 
 @Component

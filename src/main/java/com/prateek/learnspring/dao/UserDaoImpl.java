@@ -11,9 +11,9 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.prateek.learnspring.entity.User;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.ChangePassword;
-import com.prateek.learnspring.model.User;
 import com.prateek.learnspring.model.UserSearch;
 
 public class UserDaoImpl implements UserDao {

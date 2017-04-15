@@ -8,10 +8,10 @@ import javax.persistence.QueryTimeoutException;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.prateek.learnspring.entity.Rating;
+import com.prateek.learnspring.entity.Song;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.AddSongRequest;
-import com.prateek.learnspring.model.Rating;
-import com.prateek.learnspring.model.Song;
 import com.prateek.learnspring.model.SongAndRating;
 
 public class SongsDaoImpl implements SongsDao {

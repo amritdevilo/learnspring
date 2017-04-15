@@ -2,8 +2,8 @@ package com.prateek.learnspring.dao;
 
 import java.util.List;
 
+import com.prateek.learnspring.entity.Message;
 import com.prateek.learnspring.exceptions.DalException;
-import com.prateek.learnspring.model.Message;
 import com.prateek.learnspring.model.MessageImport;
 import com.prateek.learnspring.model.UserMessage;
 

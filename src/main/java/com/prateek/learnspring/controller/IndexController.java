@@ -26,13 +26,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.prateek.learnspring.dao.SongsDao;
 import com.prateek.learnspring.dao.UserDao;
+import com.prateek.learnspring.entity.Song;
+import com.prateek.learnspring.entity.User;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.ChangePassword;
 import com.prateek.learnspring.model.ClientResponse;
 import com.prateek.learnspring.model.LoginUser;
 import com.prateek.learnspring.model.ServiceResponse;
-import com.prateek.learnspring.model.Song;
-import com.prateek.learnspring.model.User;
 import com.prateek.learnspring.model.UserInfo;
 import com.prateek.learnspring.model.SongAndRating;
 

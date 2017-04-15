@@ -1,4 +1,4 @@
-package com.prateek.learnspring.model;
+package com.prateek.learnspring.entity;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
@@ -11,6 +11,8 @@ import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.prateek.learnspring.model.UserSearch;
 
 @SqlResultSetMappings({
 	@SqlResultSetMapping(name="UserSearchDtoMapping",
