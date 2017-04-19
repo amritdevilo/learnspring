@@ -242,7 +242,7 @@ public class ApiController {
 		
 		String userId = ((UserInfo)(userToken.getPrincipal())).getId();
 		messageImport.setUserId(userId);
-		
+		//System.out.println("message to be imported : " + messageImport.getSongId() + " " +  messageImport.getUserId() + " " + messageImport.getRating());
 		try {
 			messageDao.importMessage(messageImport);
 			return ResponseEntity.status(HttpStatus.OK.value())

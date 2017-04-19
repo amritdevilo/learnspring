@@ -29,8 +29,18 @@
    			</md-list>
    		</md-content>
 	</div>
+	 <div flex="5"></div>
+     <div ng-if="!slc.screen_size">
+     	<ng-youtube-embed
+            video="slc.video_url" 
+            autoplay="false"
+            color="red"
+            disablekb="false">
+        </ng-youtube-embed>
+	</div>
+	
 </div>
+<md-button class="md-primary" ng-click="slc.change()">
+	Phuk
+</md-button>
 
-<div layout="row">
-	<youtube-video video-id="iWnxbI9RFeQ"></youtube-video>
-</div>

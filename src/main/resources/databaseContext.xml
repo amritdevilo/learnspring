@@ -8,7 +8,7 @@
 						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
 						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
 						
-	<context:component-scan base-package="com.prateek.learnspring.model" />
+	<context:component-scan base-package="com.prateek.learnspring" />
 	
 	<context:annotation-config />
 	
@@ -34,7 +34,7 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
-		<property name="packagesToScan" value="com.prateek.learnspring.model" />
+		<property name="packagesToScan" value="com.prateek.learnspring.entity" />
 	</bean>
 	
 	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">

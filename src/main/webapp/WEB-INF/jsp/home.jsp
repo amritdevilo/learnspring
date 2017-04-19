@@ -21,8 +21,7 @@
 	<script src="<c:url value="/static/js/angular-material.min.js" />"></script>
 	<script src="<c:url value="/static/js/ui-bootstrap.min.js" />"></script>
 	<script src="<c:url value="/static/js/ui-bootstrap-tpls.min.js" />"></script>
-	<script src="https://www.youtube.com/iframe_api"></script>
-	<script src="<c:url value="/static/js/angular-youtube-embed.js" />"></script>
+	<script src="https://cdn.jsdelivr.net/angular.youtube-embed/1.7.9/ng-youtube-embed.min.js"></script>
 	
 	
 <%-- 	<script src="<c:url value="/app/app.js" />"></script> --%>

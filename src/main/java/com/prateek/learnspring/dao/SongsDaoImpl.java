@@ -30,7 +30,7 @@ public class SongsDaoImpl implements SongsDao {
 	public List<SongAndRating> getSongsAndRatingsbyUser(String userId) throws DalException {
 		try {
 			Query query = sessionFactory.getCurrentSession().createNativeQuery("select s.id as songId, s.name as songName, s.link, IFNULL(r.rating, 0.0) as rating "
-					+ "from song s left join rating r on r.songId=s.id where s.userId=:userId", "SongAndRatingDtoMapping");
+					+ "from song s left join rating r on r.songId=s.id where r.userId=:userId", "SongAndRatingDtoMapping");
 			query.setParameter("userId", userId);
 			List<SongAndRating> result = query.getResultList();
 			return result;

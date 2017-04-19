@@ -5,6 +5,13 @@ songListController.$inject = ["$scope", "$rootScope", "$http", "$mdToast", "$mdM
 function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDialog) {
 	$rootScope.isLoggedIn = true;
 	var vm = this;
+	vm.video_url = "https://www.youtube.com/watch?v=iWnxbI9RFeQ";
+	vm.video_url_2 = "https://www.youtube.com/watch?v=D0ag0dsP5B4";
+	
+	vm.change = function change() {
+		vm.video_url = vm.video_url_2;
+	}
+	vm.screen_size = $mdMedia('xs');
 	vm.getFormFlexValue = function() {
 		if ($mdMedia("xs")) {
 			vm.formFlexValue = 90;

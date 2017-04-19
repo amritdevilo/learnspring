@@ -1,4 +1,4 @@
-angular.module('learnspring', ["ui.router", "ngMaterial", "youtube-embed"])
+angular.module('learnspring', ["ui.router", "ngMaterial", "ngYoutubeEmbed"])
 	.config(function($mdThemingProvider) {
 		$mdThemingProvider.definePalette('customBlue', {
 			'50':'e3f2fd',

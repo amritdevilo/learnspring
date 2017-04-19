@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.prateek.learnspring.entity.Message;
 import com.prateek.learnspring.entity.Rating;
+import com.prateek.learnspring.entity.Song;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.MessageImport;
 import com.prateek.learnspring.model.UserMessage;
