@@ -69,7 +69,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (13);
+INSERT INTO `hibernate_sequence` VALUES (16);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +132,7 @@ CREATE TABLE `rating` (
 
 LOCK TABLES `rating` WRITE;
 /*!40000 ALTER TABLE `rating` DISABLE KEYS */;
-INSERT INTO `rating` VALUES (11,'6de455de-dcf0-42fc-a011-31ae8486d6d4','d92796c4-0c20-473e-98ba-95222dbf1a1d',4.0),(12,'33ba1868-c9ca-4100-a519-86395a0dbfeb','d92796c4-0c20-473e-98ba-95222dbf1a1d',4.0);
+INSERT INTO `rating` VALUES (11,'6de455de-dcf0-42fc-a011-31ae8486d6d4','d92796c4-0c20-473e-98ba-95222dbf1a1d',4.0),(12,'33ba1868-c9ca-4100-a519-86395a0dbfeb','d92796c4-0c20-473e-98ba-95222dbf1a1d',4.0),(15,'cebf7b64-7773-4652-954b-97d8bbd237ca','a39db9de-5490-499e-afcd-db5251d2cdeb',4.5);
 /*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-18 23:36:22
+-- Dump completed on 2017-04-19 22:39:10
