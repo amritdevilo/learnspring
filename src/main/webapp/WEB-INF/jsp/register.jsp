@@ -48,6 +48,8 @@
 				<div layout="row" layout-align="center center">
 					<md-button ng-click="rc.doSubmit()" flex class="md-raised md-primary">Submit</md-button>
 				</div>
+				
+				<md-button class="md-primary md-raised" ng-href="login">Have an account? Log in</md-button>
 			</form:form>
 		</div>
 		<div flex></div>

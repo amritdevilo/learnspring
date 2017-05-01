@@ -37,6 +37,7 @@
 				</div>
 				 <input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
+				<md-button class="md-primary md-raised" ng-href="register">register</md-button>		
 			</form>
 		</div>
 		<div flex></div>

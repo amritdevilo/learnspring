@@ -2,7 +2,7 @@
 <div ng-controller="headerController as hdrc">
 	<md-toolbar class="md-hue-2 md-whiteframe-z3">
 		<div class="md-toolbar-tools">
-				<h2 flex>Learn Spring</h2>
+				<h2 flex>listentothis</h2>
 			<md-button class="md-icon-button" aria-label="songs" ng-if="isLoggedIn" >
 				<a ui-sref="songList" ui-sref-active="active"><md-icon md-svg-icon="<c:url value="/static/images/ic_queue_music_white_24px.svg"/>"></md-icon></a>
 			</md-button>

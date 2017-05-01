@@ -4,7 +4,7 @@
 
 <html ng-app="learnspring">
 	<head>
-		<title>Learn spring</title>
+		<title>listentothis</title>
 		<meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no" >
 		<link rel="stylesheet" href="<c:url value="/static/css/angular-material.min.css" />">
 		<link rel="stylesheet" href="<c:url value="/static/css/fonts.css" />">
