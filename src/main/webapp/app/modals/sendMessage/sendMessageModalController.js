@@ -19,7 +19,7 @@ function sendMessageModalController($rootScope, $scope, $mdDialog, $http, song) 
 //		console.log("searching with " + key);
 		if (key == null || key == undefined || key.length == 0) return;
 		
-		return $http.get("/learnspring/api/userlist/" + key)
+		return $http.get("api/userlist/" + key)
 			.then(function(result) {
 				vm.users = result.data.userlist;
 //				console.log(result.data);

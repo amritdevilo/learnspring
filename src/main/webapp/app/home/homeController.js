@@ -19,7 +19,7 @@ function homeController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDialog
 		console.log("in home controller");
 		
 		//load songs
-		$http.get("/learnspring/api/song/ratedList")
+		$http.get("api/song/ratedList")
 			.then(function(result){
 				$rootScope.songList = result.data.songList;
 				console.log("Song list fetched");
@@ -34,7 +34,7 @@ function homeController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDialog
 			});
 		
 		//load client info
-		$http.get("/learnspring/api/client")
+		$http.get("api/client")
 			.then(function(result){
 				$rootScope.client = result.data.userInfo;
 				console.log("client info loaded");

@@ -27,12 +27,12 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 		"link" : "",
 		"resource" : ""
 	}
-	$scope.defaultImageLink = "/learnspring/static/images/defaultImageLink.jpg";
+	$scope.defaultImageLink = "static/images/defaultImageLink.jpg";
 	$scope.messages;
 	
 	vm.addSong = function addSong() {
 		$mdDialog.show({
-			templateUrl : "/learnspring/app/modals/addSongs/addSongModal.jsp",
+			templateUrl : "app/modals/addSongs/addSongModal.jsp",
 			controller : "addSongModalController as asc",
 			disableParentScroll : true,
 			hasBackdrop : true,
@@ -47,7 +47,7 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 		console.log("in submit");
 		console.log($scope.song);
 		if ($scope.song != undefined) {
-			$http.post("/learnspring/api/song/add", $scope.song)
+			$http.post("api/song/add", $scope.song)
 				.then(function(result){
 					console.log(result.data);
 					$rootScope.songList.splice(0, 0, result.data.song);
@@ -71,7 +71,7 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 	};
 	
 	vm.deleteSong = function deleteSong(song) {
-		$http.delete("/learnspring/api/song/delete/" + song.songId)
+		$http.delete("api/song/delete/" + song.songId)
 			.then(function(result){
 					if ($rootScope.songList != undefined || $rootScope.songList != null || $rootScope.songList.length != 0) {
 						var idx = -1;
@@ -127,7 +127,7 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 	
 	vm.sendMessage = function sendMessage(song) {
 		$mdDialog.show({
-			templateUrl : "/learnspring/app/modals/sendMessage/sendMessageModal.jsp",
+			templateUrl : "app/modals/sendMessage/sendMessageModal.jsp",
 			controller : "sendMessageModalController as smc",
 			disableParentScroll : true,
 			hasBackdrop : true,
@@ -137,7 +137,7 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 		}).then(function(result){
 			if (result == null || result == undefined) return ;
 			console.log(result);
-			$http.post("/learnspring/api/message/add", result)
+			$http.post("api/message/add", result)
 				.then(function(result){
 					console.log(result);
 					var msg = "Message " + (result.status == 200 ? "" : "not") + " sent : " + result.status;

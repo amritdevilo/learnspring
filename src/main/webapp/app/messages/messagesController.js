@@ -4,7 +4,7 @@ messagesController.$inject = ["$rootScope", "$scope", "$http", "$mdToast", "$mdM
 
 function messagesController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDialog) {
 	var vm = this;
-	$scope.defaultImageLink = "/learnspring/static/images/defaultImageLink.jpg";
+	$scope.defaultImageLink = "static/images/defaultImageLink.jpg";
 	$scope.messageIndex = 0; // track loaded messages index
 	$scope.currentPage = 0; // track current message batch being displayed
 	vm.messageBatch = 4;
@@ -14,7 +14,7 @@ function messagesController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDi
 	$scope.messageCurrent = []; 
 	
 	vm.nextMessageBatch = function nextMessageBatch() {
-		$http.get("/learnspring/api/message/getAll/"+$scope.messageIndex+"/"+($scope.messageIndex + vm.messageBatch))
+		$http.get("api/message/getAll/"+$scope.messageIndex+"/"+($scope.messageIndex + vm.messageBatch))
 		.then(function(result){
 			console.log(result);
 			
@@ -60,7 +60,7 @@ function messagesController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDi
 	
 	vm.importMessage = function importMessage(message) {
 		$mdDialog.show({
-			templateUrl : "/learnspring/app/modals/rateMessage/rateMessageModal.jsp",
+			templateUrl : "app/modals/rateMessage/rateMessageModal.jsp",
 			controller : "rateMessageModalController as rmc",
 			disableParentScroll : true,
 			hasBackdrop : true,
@@ -76,7 +76,7 @@ function messagesController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDi
 				"rating" : res
 			}
 			
-			$http.post("/learnspring/api/message/import", payload)
+			$http.post("api/message/import", payload)
 				.then(function(result){
 					song = {
 						"songName" : message.name,

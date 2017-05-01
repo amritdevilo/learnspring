@@ -20,7 +20,7 @@ function accountController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 		
 		console.log($scope.oldPasswd);
 		console.log($scope.newPasswd);
-		$http.post("/learnspring/api/client/update", payload)
+		$http.post("api/client/update", payload)
 			.then(function(result){
 				$mdToast.show(
 			      $mdToast.simple()
@@ -29,7 +29,7 @@ function accountController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 			        .hideDelay(1000)
 			    );
 				$timeout(function(){
-					document.location = "/learnspring/login";
+					document.location = "login";
 				}, 1000);
 				
 			}, function(result) {
@@ -48,7 +48,7 @@ function accountController($rootScope, $scope, $http, $mdToast, $mdMedia, $mdDia
 	
 	vm.checkClientInfo = function checkClientInfo() {
 		if ($rootScope.client == null || $rootScope.client == undefined) {
-			$http.get("/learnspring/api/client")
+			$http.get("api/client")
 				.then(function(result){
 					$rootScope.client = result.data.userInfo;
 					$scope.client = result.data.userInfo;
