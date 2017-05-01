@@ -4,6 +4,7 @@ package com.prateek.learnspring.controller;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,7 @@ import com.prateek.learnspring.model.AddSongResponse;
 import com.prateek.learnspring.model.ChangePassword;
 import com.prateek.learnspring.model.ClientResponse;
 import com.prateek.learnspring.model.MessageImport;
+import com.prateek.learnspring.model.SentMessageAndRating;
 import com.prateek.learnspring.model.ServiceResponse;
 import com.prateek.learnspring.model.SongAndRating;
 import com.prateek.learnspring.model.SongAndRatingResponse;
@@ -42,6 +44,7 @@ import com.prateek.learnspring.model.UserInfo;
 import com.prateek.learnspring.model.UserMessage;
 import com.prateek.learnspring.model.UserMessageResponse;
 import com.prateek.learnspring.model.UserSearch;
+import com.prateek.learnspring.model.UserSentMessageResponse;
 
 @Controller
 public class ApiController {
@@ -254,15 +257,38 @@ public class ApiController {
 		}
 	}
 	
+	@RequestMapping(value="/api/message/sent", method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<UserSentMessageResponse> getSentMessages(HttpServletRequest request) {
+		UsernamePasswordAuthenticationToken userToken = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		if (userToken == null) {
+			System.out.println("Null user");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
+					.body(new UserSentMessageResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()));
+		}
+		
+		String userId = ((UserInfo)(userToken.getPrincipal())).getId();
+		
+		try {
+			List<SentMessageAndRating> resp = messageDao.getSentMessageAndRating(userId);
+			return ResponseEntity.status(HttpStatus.OK.value())
+					.body(new UserSentMessageResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), resp));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+					.body(new UserSentMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+		}
+	}
+	
 	@RequestMapping(value="/api/userlist/{key}", method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<UserAutocompleteResponse> getUserList(@PathVariable String key) {
 		try {
 			ArrayList<UserSearch> res = (ArrayList<UserSearch>) userDao.getUserList(key.toLowerCase());
-			System.out.println(res.size());
-			for (UserSearch u : res) {
-				System.out.println(u.getFirstName());
-			}
+//			System.out.println(res.size());
+//			for (UserSearch u : res) {
+//				System.out.println(u.getFirstName());
+//			}
 			return ResponseEntity.status(HttpStatus.OK.value())
 					.body(new UserAutocompleteResponse(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), res));
 		} catch (Exception e) {

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.prateek.learnspring.model.SentMessageAndRating;
 import com.prateek.learnspring.model.SongAndRating;
 import com.prateek.learnspring.model.UserMessage;
 
@@ -38,6 +39,17 @@ import javax.persistence.ConstructorResult;
 							@ColumnResult(name="songId", type=String.class),
 							@ColumnResult(name="name", type=String.class),
 							@ColumnResult(name="link", type=String.class)
+					})
+	}),
+@SqlResultSetMapping(name="SentAndRatingDtoMapping",
+	classes = {
+			@ConstructorResult(targetClass=SentMessageAndRating.class,
+					columns = {
+							@ColumnResult(name="link", type=String.class),
+							@ColumnResult(name="name", type=String.class),
+							@ColumnResult(name="firstName", type=String.class),
+							@ColumnResult(name="lastName", type=String.class),
+							@ColumnResult(name="rating", type=Float.class)
 					})
 	})
 })

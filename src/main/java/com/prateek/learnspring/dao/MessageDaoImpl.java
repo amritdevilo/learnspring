@@ -15,6 +15,7 @@ import com.prateek.learnspring.entity.Rating;
 import com.prateek.learnspring.entity.Song;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.MessageImport;
+import com.prateek.learnspring.model.SentMessageAndRating;
 import com.prateek.learnspring.model.UserMessage;
 
 public class MessageDaoImpl implements MessageDao {
@@ -93,6 +94,27 @@ public class MessageDaoImpl implements MessageDao {
 			throw new DalException(e.getMessage());
 		}
 	}
+	
+	@Transactional(rollbackFor={Exception.class})
+	public List<SentMessageAndRating> getSentMessageAndRating(String userId) throws DalException {
+		try {
+			Query query = sessionFactory.getCurrentSession().createNativeQuery("select s.link, s.name, ifnull(r.rating, 0.0) as rating, "
+					+ "u.firstName, u.lastName from message as m left join song s on s.id=m.songId "
+					+ "left join rating r on r.songId=s.id and r.userId=m.toId "
+					+ "left join UserDetails as u on u.id=m.toId where m.fromId=:fromId order by m.ts desc", "SentAndRatingDtoMapping");
+			query.setParameter("fromId", userId);
+			List<SentMessageAndRating> result = query.getResultList();
+			return result;
+		} catch (IllegalStateException e) {
+			throw new DalException(e.getMessage());
+		} catch (QueryTimeoutException e) {
+			throw new DalException(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DalException(e.getMessage());
+		}
+	}
+	
 
 	@Transactional(rollbackFor={DalException.class})
 	public List<UserMessage> getAllMessages(String toId, int from, int to) throws DalException {

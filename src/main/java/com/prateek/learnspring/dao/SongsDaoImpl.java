@@ -12,6 +12,7 @@ import com.prateek.learnspring.entity.Rating;
 import com.prateek.learnspring.entity.Song;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.AddSongRequest;
+import com.prateek.learnspring.model.SentMessageAndRating;
 import com.prateek.learnspring.model.SongAndRating;
 
 public class SongsDaoImpl implements SongsDao {

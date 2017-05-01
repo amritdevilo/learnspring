@@ -5,6 +5,7 @@ import java.util.List;
 import com.prateek.learnspring.entity.Message;
 import com.prateek.learnspring.exceptions.DalException;
 import com.prateek.learnspring.model.MessageImport;
+import com.prateek.learnspring.model.SentMessageAndRating;
 import com.prateek.learnspring.model.UserMessage;
 
 public interface MessageDao {
@@ -18,5 +19,7 @@ public interface MessageDao {
 	public List<UserMessage> getAllMessages(String toId, int from ,int to) throws DalException;
 	
 	public void importMessage(MessageImport messageImport) throws DalException;
+	
+	public List<SentMessageAndRating> getSentMessageAndRating(String userId) throws DalException;
 	
 }
