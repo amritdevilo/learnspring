@@ -146,7 +146,7 @@ DROP TABLE IF EXISTS `song`;
 CREATE TABLE `song` (
   `id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `link` varchar(1023) NOT NULL,
+  `link` varchar(767) NOT NULL,
   `userId` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unq_link` (`link`),
