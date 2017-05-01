@@ -17,6 +17,9 @@
     					<p>Rating : {{song.rating == 0 ? "unrated" : song.rating}}</p>
     				</div>
     				<div>
+    					<md-button ng-if="slc.allowPlay(song)" class="md-icon-button md-secondary" ng-click="slc.playSong(song)">
+    						<md-icon class="md-icon-button" md-svg-icon="<c:url value="/static/images/ic_play_circle_filled_black_24px.svg" />" arial-label="play"></md-icon>
+    					</md-button>
     					<md-button class="md-icon-button md-secondary" ng-click="slc.showConfirm($event, song)">
     						<md-icon class="md-icon-button" md-svg-icon="<c:url value="/static/images/ic_delete_black_24px.svg" />" aria-label="delete"/> 
     					</md-button>
@@ -40,7 +43,4 @@
 	</div>
 	
 </div>
-<md-button class="md-primary" ng-click="slc.change()">
-	Phuk
-</md-button>
 

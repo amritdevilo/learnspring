@@ -6,11 +6,7 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 	$rootScope.isLoggedIn = true;
 	var vm = this;
 	vm.video_url = "https://www.youtube.com/watch?v=iWnxbI9RFeQ";
-	vm.video_url_2 = "https://www.youtube.com/watch?v=D0ag0dsP5B4";
 	
-	vm.change = function change() {
-		vm.video_url = vm.video_url_2;
-	}
 	vm.screen_size = $mdMedia('xs');
 	vm.getFormFlexValue = function() {
 		if ($mdMedia("xs")) {
@@ -69,6 +65,14 @@ function songListController($scope, $rootScope, $http, $mdToast, $mdMedia, $mdDi
 				});
 		}
 	};
+	
+	vm.playSong = function playSong(song) {
+		vm.video_url = song.link;
+	};
+	
+	vm.allowPlay = function allowPlay(song) {
+		return (vm.thumbnail(song.link) != $scope.defaultImageLink);
+	}
 	
 	vm.deleteSong = function deleteSong(song) {
 		$http.delete("api/song/delete/" + song.songId)
